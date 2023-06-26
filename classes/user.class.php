@@ -1,6 +1,6 @@
 <?php
 // Include the database connection file
-include 'db_connect.php';
+include 'db_connect.class.php';
 
 // Define the User class
 class User {
@@ -16,15 +16,15 @@ class User {
   private $conn;
 
   // Constructor
-  public function __construct($username, $email, $password, $phone, $address, $type) {
-    $this->username = $username;
-    $this->email = $email;
-    $this->password = $password;
-    $this->phone = $phone;
-    $this->address = $address;
-    $this->type = $type;
-    $this->conn = Database::getInstance()->getConn();
-  }
+    public function __construct($username, $email, $password, $phone, $address, $type) {
+      $this->username = $username;
+      $this->email = $email;
+      $this->password = $password;
+      $this->phone = $phone;
+      $this->address = $address;
+      $this->type = $type;
+      $this->conn = Database::getInstance()->getConn();
+    }
 
   // Register a new user
   public function register() {
@@ -54,6 +54,17 @@ class User {
     if ($stmt->execute()) {
       $this->id = $this->conn->insert_id;
       $stmt->close();
+
+      // Check the user type and insert into the respective table
+      if ($this->type === 'patient') {
+        $stmt = $this->conn->prepare("INSERT INTO patients (user_id) VALUES (?)");
+      } else if ($this->type === 'donor') {
+        $stmt = $this->conn->prepare("INSERT INTO donors (user_id) VALUES (?)");
+      }
+      $stmt->bind_param("i", $this->id);
+      $stmt->execute();
+      $stmt->close();
+
       $this->conn->close();
       return true;
     } else {
