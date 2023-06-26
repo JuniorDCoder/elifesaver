@@ -81,6 +81,9 @@ class User {
                 $user->last_login = $row['last_login'];
                 return $user;
             }
+            else{
+              return 0;
+            }
         }
 
         // No user found with the given email or password is incorrect, return false

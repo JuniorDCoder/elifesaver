@@ -12,7 +12,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo json_encode(array('success' => true, 'user' => $user));
         $stmt->close();
         $conn->close();
-    } else {
+    } 
+    else if($user==0){
+        echo json_encode(array('success' => "wrong password"));
+    }
+    else {
         echo json_encode(array('success' => false));
     }
     
