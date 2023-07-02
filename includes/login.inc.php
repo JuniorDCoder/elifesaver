@@ -1,4 +1,17 @@
 <?php
+// Set the allowed origins for CORS
+$allowed_origins = array('http://localhost:8080', 'https://ed53-102-244-155-30.ngrok-free.app/E%20Life%20Saver/includes/login.inc.php');
+
+// Get the origin header from the request
+$origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
+
+// Check if the origin is allowed
+if (in_array($origin, $allowed_origins)) {
+    // Set the CORS headers
+    header('Access-Control-Allow-Origin: ' . $origin);
+    header('Access-Control-Allow-Methods: GET, POST');
+    header('Access-Control-Allow-Headers: Content-Type');
+}
 // Login a user
 include('../classes/user.class.php');
 $conn = Database::getInstance()->getConn();
@@ -22,15 +35,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $user_id = $_SESSION['donor']['id'];
             $user_type = "donor";
         }
-        echo json_encode(array('success' => true, 'user' => $user));
+        
+        $response = array('success' => true, 'user' => $user);
         $stmt->close();
         $conn->close();
     } 
     else if($user===0){
-        echo json_encode(array('success' => "wrong pwd"));
+        $response = array('success' => "wrong pwd");
     }
     else {
-        echo json_encode(array('success' => false));
+        $response = array('success' => false);
     }
+    header('Content-Type: application/json');
+    echo json_encode($response);
     
 }
