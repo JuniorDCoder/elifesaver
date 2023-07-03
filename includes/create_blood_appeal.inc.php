@@ -3,10 +3,16 @@ session_start();
 include('../classes/blood_appeal.class.php');
 $conn = Database::getInstance()->getConn();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if(isset($_SESSION['patient']) && isset($_SESSION['patient']['id'])){
-        $user_id = $_SESSION['patient']['id'];
+    if((isset($_SESSION['patient']) ) || (isset($_SESSION['donor']))){
         $status = "pending";
-        $blood_appeal = new BloodAppeal($_POST['patient_id'], $_POST['donor_id'], $_POST['health_facility_id'], $status);
+        if(isset($_SESSION['patient'])){
+            $blood_appeal = new BloodAppeal($_POST['patient_id'], $_POST['donor_id'], $_POST['health_facility_id'], $status);
+        }
+        else if(isset($_SESSION['donor'])){
+            $donor_id = $_SESSION['donor']['id'];
+            $blood_appeal = new BloodAppeal($_POST['donor_id'], $_POST['donor_id'], $_POST['health_facility_id'], $status);
+        }
+        
         $blood_appeal_created = $blood_appeal->create();
         if ($blood_appeal_created) {
             echo json_encode(array('success' => true, 'blood_appeal' => $blood_appeal));
@@ -17,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
         
     else{
-        echo json_encode(array('success' => "Not Logged in as Patient"));
+        echo json_encode(array('success' => "Not Logged in as Patient or Donor"));
     }
     
 }
