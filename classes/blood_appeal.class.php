@@ -47,4 +47,17 @@ class BloodAppeal {
     $appeals = $result->fetch_all(MYSQLI_ASSOC);
     return $appeals;
   }
+  public static function deleteBloodAppeal($id) {
+    $conn = Database::getInstance()->getConn();
+    // Execute the DELETE statement
+    $stmt = $conn->prepare("DELETE FROM blood_appeals WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    if ($stmt->execute()) {
+      $stmt->close();
+      $conn->close();
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
