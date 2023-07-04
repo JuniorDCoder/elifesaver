@@ -1,6 +1,6 @@
 <?php
 // Set the allowed origins for CORS
-$allowed_origins = array('http://localhost:8080', 'https://ed53-102-244-155-30.ngrok-free.app/E%20Life%20Saver/includes/login.inc.php');
+$allowed_origins = array('http://localhost:8080', 'https://5ac6-102-244-155-96.ngrok-free.app');
 
 // Get the origin header from the request
 $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
@@ -11,7 +11,8 @@ if (in_array($origin, $allowed_origins)) {
     header('Access-Control-Allow-Origin: ' . $origin);
     header('Access-Control-Allow-Methods: GET, POST');
     header('Access-Control-Allow-Headers: Content-Type');
-}
+    header('Cache-Control: no-cache, no-store, must-revalidate');
+} 
 // Login a user
 include('../classes/user.class.php');
 $conn = Database::getInstance()->getConn();
