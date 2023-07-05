@@ -1,6 +1,6 @@
 <?php
 // Set the allowed origins for CORS
-$allowed_origins = array('http://localhost:8080', 'https://5ac6-102-244-155-96.ngrok-free.app');
+$allowed_origins = array('http://localhost:8080', 'https://286c-102-244-155-58.ngrok-free.app');
 
 // Get the origin header from the request
 $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
