@@ -100,4 +100,45 @@ class User {
         // No user found with the given email or password is incorrect, return false
         return false;
     }
+    public function updatePassword($new_password) {
+      $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+      $stmt = $this->conn->prepare("UPDATE users SET password = ? WHERE id = ?");
+      $stmt->bind_param("si", $hashed_password, $this->id);
+      if ($stmt->execute()) {
+        $this->password = $hashed_password;
+        $stmt->close();
+        $this->conn->close();
+        return true;
+      } else {
+        return false;
+      }
+    }
+    
+    // Update the user's personal information
+    public function updatePersonalInfo($phone, $address) {
+      $stmt = $this->conn->prepare("UPDATE users SET phone = ?, address = ? WHERE id = ?");
+      $stmt->bind_param("ssi", $phone, $address, $this->id);
+      if ($stmt->execute()) {
+        $this->phone = $phone;
+        $this->address = $address;
+        $stmt->close();
+        $this->conn->close();
+        return true;
+      } else {
+        return false;
+      }
+    }
+    //Delete a user
+  public static function delete($user_id) {
+    $conn = Database::getInstance()->getConn();
+    $stmt = $conn->prepare("DELETE FROM users WHERE id = ?");
+    $stmt->bind_param("i", $user_id);
+    if ($stmt->execute()) {
+      $stmt->close();
+      $conn->close();
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
