@@ -1,29 +1,33 @@
 <?php
-include('db_connect.class.php');
-class Patient{
-    private $id;
-    private $patient_name;
-    private $gender;
-    private $email;
-    private $password;
-    private $phone;
-    private $address;
-    private $city;
-    private $last_login;
+class Donor extends Patient{
+    public $id;
+    public $donor_name;
+    public $gender;
+    public $email;
+    public $password;
+    public $phone;
+    public $address;
+    public $city;
+    public $last_login;
+    public $blood_group;
+    public $last_donation_date;
+    public $bts_number;
     private $conn;
-    private function __construct($patient_name, $gender, $email, $password, $phone, $address, $city) {
-        $this->patient_name = $patient_name;
+    public function __construct($donor_name, $gender, $email, $password, $phone, $address, $city, $blood_group, $bts_number) {
+        $this->donor_name = $donor_name;
         $this->gender = $gender;
         $this->email = $email;
         $this->password = $password;
         $this->phone = $phone;
         $this->address = $address;
         $this->city = $city;
+        $this->blood_group = $blood_group;
+        $this->bts_number = $bts_number;
         $this->conn = Database::getInstance()->getConn();
     }
-    private function registerPatient(){
+    public function registerDonor(){
         // Check if the email already exists
-        $stmt = $this->conn->prepare("SELECT id FROM patients WHERE email = ?");
+        $stmt = $this->conn->prepare("SELECT id FROM donors WHERE email = ?");
         $stmt->bind_param("s", $this->email);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -31,9 +35,9 @@ class Patient{
             return -1;
         }   
         $hashed_password = password_hash($this->password, PASSWORD_DEFAULT);
-        // Insert the new patient record
-        $stmt = $this->conn->prepare("INSERT INTO patients (patient_name, gender, email, password, phone, address, city) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssss", $this->patient_name, $this->gender, $this->email, $hashed_password, $this->phone, $this->address, $this->city);
+        // Insert the new donor record
+        $stmt = $this->conn->prepare("INSERT INTO donors (donor_name, gender, email, password, phone, address, city, blood_group, bts_number) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssssssss", $this->donor_name, $this->gender, $this->email, $hashed_password, $this->phone, $this->address, $this->city, $this->blood_group, $this->bts_number);
         if ($stmt->execute()) {
             $this->id = $this->conn->insert_id;
             $stmt->close();
@@ -45,35 +49,34 @@ class Patient{
             return false;
         }
     }
-    private static function loginPatient($email, $password) {
+    public static function loginDonor($email, $password) {
         $conn = Database::getInstance()->getConn();
-        // Get the patient record with the given email
-        $stmt = $conn->prepare("SELECT * FROM patients WHERE email = ?");
+        // Get the donor record with the given email
+        $stmt = $conn->prepare("SELECT * FROM donors WHERE email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
 
-        // Check if a patient was found with the given email
+        // Check if a donor was found with the given email
         if ($result->num_rows == 1) {
             $row = $result->fetch_assoc();
             // Verify the password
             if (password_verify($password, $row['password'])) {
-                // Password is correct, create and return a new patient object
-                $patient = new Patient($row['patient_name'], $row['gender'], $row['email'], $row['password'], $row['phone'], $row['address'], $row['city']);
-                $patient->id = $row['id'];
-                $patient->last_login = $row['last_login'];
-                return $patient;
+                // Password is correct, create and return a new donor object
+                $donor = new Donor($row['donor_name'], $row['gender'], $row['email'], $row['password'], $row['phone'], $row['address'], $row['city'], $row['blood_group'], $row['bts_number']);
+                $donor->id = $row['id'];
+                return $donor;
             }
             else{
               return 0;
             }
         }
-        // No patient found with the given email or password is incorrect, return false
+        // No donor found with the given email or password is incorrect, return false
         return false;
     }
-    private function updatePatientPassword($new_password) {
+    public function updateDonorPassword($new_password) {
         $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
-        $stmt = $this->conn->prepare("UPDATE patients SET password = ? WHERE id = ?");
+        $stmt = $this->conn->prepare("UPDATE donors SET password = ? WHERE id = ?");
         $stmt->bind_param("si", $hashed_password, $this->id);
         if ($stmt->execute()) {
           $this->password = $hashed_password;
@@ -86,8 +89,8 @@ class Patient{
       }
       
       // Update the user's personal information
-        private function updatePatientPersonalInfo($phone, $address, $city) {
-            $stmt = $this->conn->prepare("UPDATE patients SET phone = ?, address = ?, city = ? WHERE id = ?");
+        public function updateDonorPersonalInfo($phone, $address, $city) {
+            $stmt = $this->conn->prepare("UPDATE donors SET phone = ?, address = ?, city = ? WHERE id = ?");
             $stmt->bind_param("sssi", $phone, $address, $city, $this->id);
             if ($stmt->execute()) {
             $this->phone = $phone;
@@ -101,10 +104,10 @@ class Patient{
             }
         }
       //Delete a user
-    private static function deletePatient($patient_id) {
+    public static function deleteDonor($donor_id) {
         $conn = Database::getInstance()->getConn();
-        $stmt = $conn->prepare("DELETE FROM patients WHERE id = ?");
-        $stmt->bind_param("i", $patient_id);
+        $stmt = $conn->prepare("DELETE FROM donors WHERE id = ?");
+        $stmt->bind_param("i", $donor_id);
         if ($stmt->execute()) {
             $stmt->close();
             $conn->close();

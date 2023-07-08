@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Karla:wght@400;700&display=swap');
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Karla', sans-serif;
+}
+nav {
+  padding: 10px;
+}
+h3 {
+  font-size: 30px;
+}
+nav img {
+  width: 100px;
+}
+.container {
+  width: 80%;
+  margin: auto;
+}
+.grid-row {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  height: 80vh;
+  gap: 10px;
+  align-items: center;
+}
+.flex-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+input,
+select {
+  width: 100%;
+  padding: 10px 15px;
+  margin: 10px 0;
+  border-radius: 10px;
+  border: 1px solid black;
+}
+input::placeholder {
+  color: black;
+}
+section img {
+  width: 100%;
+}
+.btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #b80b0b;
+  color: #fff;
+  border: 1px solid #b80b0b;
+  border-radius: 10px;
+}
+.forgot {
+  padding: 10px 0;
+}
+@media only screen and (max-width: 800px) {
+  .container {
+    width: 100%;
+    padding: 30px;
+  }
+}
+@media only screen and (max-width: 505px) {
+  .container {
+    width: 100%;
+    padding: 20px;
+  }
+  .grid-row {
+    grid-template-columns: 100%;
+  }
+}
