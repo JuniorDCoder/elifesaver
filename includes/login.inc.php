@@ -6,7 +6,7 @@ $conn = Database::getInstance()->getConn();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Set the allowed origins for CORS
-    $allowed_origins = array('http://localhost:8080', 'https://5dac-102-244-155-116.ngrok-free.app');
+    $allowed_origins = array('http://localhost:8080', 'https://e309-102-244-155-207.ngrok-free.app');
 
     // Get the origin header from the request
     $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';

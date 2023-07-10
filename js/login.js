@@ -8,7 +8,7 @@ loginForm.addEventListener('submit', event => {
     const password = formData.get('password');
 
     // Send a POST request to the login API endpoint with the user's credentials
-    fetch('https://5dac-102-244-155-116.ngrok-free.app/E%20Life%20Saver/includes/login.inc.php', {
+    fetch('https://e309-102-244-155-207.ngrok-free.app/E%20Life%20Saver/includes/login.inc.php', {
         method: 'POST',
         body: formData
     })

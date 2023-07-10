@@ -10,6 +10,7 @@ class Patient{
     private $address;
     private $city;
     private $last_login;
+    private static $is_logged_in = false;
     private $conn;
     private function __construct($patient_name, $gender, $email, $password, $phone, $address, $city) {
         $this->patient_name = $patient_name;
@@ -38,7 +39,7 @@ class Patient{
             $this->id = $this->conn->insert_id;
             $stmt->close();
             $this->conn->close();
-            
+            self::$is_logged_in = true;
             return true;
         }
         else{
@@ -62,6 +63,7 @@ class Patient{
                 $patient = new Patient($row['patient_name'], $row['gender'], $row['email'], $row['password'], $row['phone'], $row['address'], $row['city']);
                 $patient->id = $row['id'];
                 $patient->last_login = $row['last_login'];
+                self::$is_logged_in = true;
                 return $patient;
             }
             else{
@@ -112,5 +114,9 @@ class Patient{
         } else {
             return false;
         }
+    }
+    public static function logout() {
+        self::$is_logged_in = false;
+        return true;
     }
 }

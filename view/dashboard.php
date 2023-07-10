@@ -1,3 +1,6 @@
+<?php
+  session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -47,7 +50,7 @@
               </li>
             </ul>
           </div>
-          <div class="logout"><i class="fa-sharp fa-solid fa-right-from-bracket"></i> Logout</div>
+          <div class="logout"><a href="../includes/logout.php"><i class="fa-sharp fa-solid fa-right-from-bracket"></i>&nbsp&nbspLogout</a></div>
         </div>
         <main class="full">
             <header>
@@ -67,7 +70,7 @@
             </header>
             <section>
                 <div >
-                    <p>Hello <span class="name">Emmanuel!</span></p>
+                    <p>Hello <span class="name"><?php echo $_SESSION['donor']['name']; ?></span></p>
                 </div>
                 <div class="donation-cards">
                     <div class="donation-card">
