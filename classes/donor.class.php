@@ -103,6 +103,18 @@ class Donor extends Patient{
                 return false;
             }
         }
+        public static function isDonor($email) {
+            // Check if the email belongs to a donor
+            $conn = Database::getInstance()->getConn();
+            $stmt = $conn->prepare("SELECT COUNT(*) FROM donors WHERE email = ?");
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+            $stmt->bind_result($count);
+            $stmt->fetch();
+            $stmt->close();
+      
+            return $count > 0;
+          }
       //Delete a user
     public static function deleteDonor($donor_id) {
         $conn = Database::getInstance()->getConn();

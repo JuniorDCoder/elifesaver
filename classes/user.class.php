@@ -99,7 +99,7 @@ class User {
 
         // No user found with the given email or password is incorrect, return false
         return false;
-    }
+  }
     public function updatePassword($new_password) {
       $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
       $stmt = $this->conn->prepare("UPDATE users SET password = ? WHERE id = ?");
@@ -128,17 +128,18 @@ class User {
         return false;
       }
     }
+    
     //Delete a user
-  public static function delete($user_id) {
-    $conn = Database::getInstance()->getConn();
-    $stmt = $conn->prepare("DELETE FROM users WHERE id = ?");
-    $stmt->bind_param("i", $user_id);
-    if ($stmt->execute()) {
-      $stmt->close();
-      $conn->close();
-      return true;
-    } else {
-      return false;
+    public static function delete($user_id) {
+      $conn = Database::getInstance()->getConn();
+      $stmt = $conn->prepare("DELETE FROM users WHERE id = ?");
+      $stmt->bind_param("i", $user_id);
+      if ($stmt->execute()) {
+        $stmt->close();
+        $conn->close();
+        return true;
+      } else {
+        return false;
+      }
     }
-  }
 }

@@ -115,6 +115,18 @@ class Patient{
             return false;
         }
     }
+    public static function isPatient($email) {
+        // Check if the email belongs to a patient
+        $conn = Database::getInstance()->getConn();
+        $stmt = $conn->prepare("SELECT COUNT(*) FROM patients WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $stmt->bind_result($count);
+        $stmt->fetch();
+        $stmt->close();
+
+        return $count > 0;
+    }
     public static function logout() {
         self::$is_logged_in = false;
         return true;

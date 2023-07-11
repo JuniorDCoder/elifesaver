@@ -70,7 +70,7 @@
             </header>
             <section>
                 <div >
-                    <p>Hello <span class="name"><?php echo $_SESSION['donor']['name']; ?></span></p>
+                    <p>Hello <span class="name"><?php echo $_SESSION['donor']['email']; ?></span></p>
                 </div>
                 <div class="donation-cards">
                     <div class="donation-card">

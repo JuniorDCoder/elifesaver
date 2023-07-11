@@ -1,5 +1,5 @@
 <?php
-$allowed_origins = array('http://localhost:8080', 'https://e309-102-244-155-207.ngrok-free.app');
+$allowed_origins = array('http://localhost:8080', 'https://b112-102-244-155-36.ngrok-free.app');
 
 // Get the origin header from the request
 $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
