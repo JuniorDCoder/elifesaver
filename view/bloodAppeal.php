@@ -27,9 +27,14 @@
                         
 
                         <div class="flex-row">
-                          <select name="Select " id="">
-                            <option value="">Select Blood Group</option>
-                          </select>
+                        <select name="blood_group" id="">
+                          <option value="">Select Blood Group</option>
+                          <option value="A+">A+</option>
+                          <option value="A-">A-</option>
+                          <option value="O-">O-</option>
+                          <option value="O+">O+</option>
+                          <option value="AB">AB</option>
+                        </select>
                           <select name="Select " id="">
                             <option value="">Select Blood Group</option>
                           </select>
