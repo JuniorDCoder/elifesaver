@@ -33,6 +33,6 @@ loginForm.addEventListener('submit', event => {
         }
     })
     .catch(error => {
-        alert('Error:', error);
+        alert('Error:',error);
     });
 });

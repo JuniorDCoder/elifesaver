@@ -1,6 +1,4 @@
 <?php
-// Start a session
-session_start();
 
 // Login a patient or donor
 include('../classes/patient.class.php');
@@ -30,22 +28,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (Patient::isPatient($_POST['email'])) {
         $user = Patient::loginPatient($_POST['email'], $_POST['password']);
         $type = "patient";
-        $_SESSION[$type] = [
-            'id' => $user->id,
-            'type' => $type,
-            'email' => $user->email,
-            'name' => $user->patient_name // Set the donor name in the session variable
-        ];
     } else if (Donor::isDonor($_POST['email'])) {
         $user = Donor::loginDonor($_POST['email'], $_POST['password']);
         $type = "donor";
-
-        $_SESSION[$type] = [
-            'id' => $user->id,
-            'type' => $type,
-            'email' => $user->email,
-            'name' => $user->donor_name // Set the donor name in the session variable
-        ];
     }
 
     if ($user) {
@@ -56,21 +41,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt = $conn->prepare("UPDATE " . $type . "s SET last_login = ? WHERE id = ?");
         $stmt->bind_param("si", $user->last_login, $user->id);
         $stmt->execute();
-    
-        // Retrieve the name of the user from the database
-        $stmt = $conn->prepare("SELECT " . $type . "_name FROM " . $type . "s WHERE id = ?");
-        $stmt->bind_param("i", $user->id);
-        $stmt->execute();
-        $stmt->bind_result($name);
-        $stmt->fetch();
-    
-        // Store the name in a session variable
-        $_SESSION[$type]['name'] = $name;
-    
+        
         $response = array('success' => true, 'type' => $type, 'user' => $user);
-    } else if ($user === 0) {
+    } else if ($user == 0) {
         $response = array('success' => false, 'error' => "Wrong Password");
-    } else {
+    } else if(!$user){
         $response = array('success' => false, 'error' => "Invalid email or password");
     }
 
