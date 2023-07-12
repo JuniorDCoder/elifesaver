@@ -1,6 +1,7 @@
 <?php
-  session_start();
+session_start();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -50,7 +51,7 @@
               </li>
             </ul>
           </div>
-          <div class="logout"><a href="../includes/logout.php"><i class="fa-sharp fa-solid fa-right-from-bracket"></i>&nbsp&nbspLogout</a></div>
+          <div class="logout"><a href="../includes/logout.php"><i class="fa-sharp fa-solid fa-right-from-bracket"></i>&nbsp&nbsp Logout</a></div>
         </div>
         <main class="full">
             <header>
@@ -69,8 +70,15 @@
                 </nav>
             </header>
             <section>
+              <?php
+                // Get the user type and name from the URL parameters
+                $userType = $_GET['type'];
+                $userName = $_GET['name'];
+
+              ?>
                 <div >
-                    <p>Hello <span class="name"><?php echo $_SESSION['donor']['email']; ?></span></p>
+                    <p>Hello <span id="welcome-message" class="name"><?php echo $userName; ?></span>
+                    </p>
                 </div>
                 <div class="donation-cards">
                     <div class="donation-card">
@@ -94,5 +102,6 @@
             </section>
         </main>
     </div>
+    <script src="../js/login.js"></script>
   </body>
 </html>

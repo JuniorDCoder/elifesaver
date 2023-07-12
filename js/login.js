@@ -8,7 +8,7 @@ loginForm.addEventListener('submit', event => {
     const password = formData.get('password');
 
     // Send a POST request to the login API endpoint with the user's credentials
-    fetch('https://b112-102-244-155-36.ngrok-free.app/E%20Life%20Saver/includes/login.inc.php', {
+    fetch('https://9a71-41-202-207-145.ngrok-free.app/E%20Life%20Saver/includes/login.inc.php', {
         method: 'POST',
         body: formData
     })
@@ -16,7 +16,9 @@ loginForm.addEventListener('submit', event => {
     .then(data => {
         if (data.success) {
             // If authentication is successful, redirect the user to their dashboard
-            window.location.href = `dashboard.php?id=${data.donor_id}`;
+            const userType = data.type;
+            const userName = data.user[userType + '_name'];
+            window.location.href = `dashboard.php?type=${userType}&name=${userName}`;
         } else {
             // If authentication fails, display an error message
             alert(data.error);
