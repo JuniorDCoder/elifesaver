@@ -1,22 +1,15 @@
+<!-- logout.php file -->
 <?php
 session_start();
+// Unset all of the session variables
+$_SESSION = array();
 
-// Unset all session variables
-$_SESSION = [];
-
-// Destroy session data on the server
+// Destroy the session.
 session_destroy();
 
-// Remove session cookie
-if (ini_get("session.use_cookies")) {
-    $params = session_get_cookie_params();
-    setcookie(session_name(), '', time() - 42000,
-        $params["path"], $params["domain"],
-        $params["secure"], $params["httponly"]
-    );
-}
+// Clear the session variables from localStorage
+echo '<script>localStorage.clear();</script>';
 
-// Redirect to the index page
-header('Location: ../index.php');
+// Redirect the user to the login page
+header('Location: ../');
 exit();
-?>

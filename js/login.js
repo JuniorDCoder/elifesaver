@@ -15,10 +15,18 @@ loginForm.addEventListener('submit', event => {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            // If authentication is successful, redirect the user to their dashboard
+            // If authentication is successful, set the session variables and redirect the user to their dashboard
             const userType = data.type;
             const userName = data.user[userType + '_name'];
-            window.location.href = `dashboard.php?type=${userType}&name=${userName}`;
+            const userEmail = data.user['email'];
+        
+            // Set the session variables using localStorage
+            localStorage.setItem('type', userType);
+            localStorage.setItem('name', userName);
+            localStorage.setItem('email', userEmail);
+            
+            // Redirect the user to the dashboard
+            window.location.href = `dashboard.php?email=${userEmail}&name=${userName}`;
         } else {
             // If authentication fails, display an error message
             alert(data.error);
