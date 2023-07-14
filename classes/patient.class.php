@@ -85,10 +85,10 @@ class Patient{
         } else {
           return false;
         }
-      }
+    }
       
       // Update the user's personal information
-        private function updatePatientPersonalInfo($phone, $address, $city) {
+    private function updatePatientPersonalInfo($phone, $address, $city) {
             $stmt = $this->conn->prepare("UPDATE patients SET phone = ?, address = ?, city = ? WHERE id = ?");
             $stmt->bind_param("sssi", $phone, $address, $city, $this->id);
             if ($stmt->execute()) {
@@ -101,20 +101,8 @@ class Patient{
             } else {
                 return false;
             }
-        }
-      //Delete a user
-    private static function deletePatient($patient_id) {
-        $conn = Database::getInstance()->getConn();
-        $stmt = $conn->prepare("DELETE FROM patients WHERE id = ?");
-        $stmt->bind_param("i", $patient_id);
-        if ($stmt->execute()) {
-            $stmt->close();
-            $conn->close();
-            return true;
-        } else {
-            return false;
-        }
     }
+    
     public static function isPatient($email) {
         // Check if the email belongs to a patient
         $conn = Database::getInstance()->getConn();

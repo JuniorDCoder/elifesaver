@@ -1,6 +1,85 @@
 <?php
+include('db_connect.class.php');
 class Admin extends User
 {
+    private $conn;
+    private $id;
+    private $admin_name;
+    private $email;
+    private $password;
+    private $is_logged_in = false;
+    public function __construct($admin_name, $email ,$password){
+        $this->$admin_name = $admin_name;
+        $this->email = $email;
+        $this->password = $password;
+        $this->conn = Database::getInstance()->getConn();
+    }
+    public static function isAdmin(){
+        //Check if the user is an admin
+    }
+    public function registerAdmin(){
+        // Check if the email already exists
+        $stmt = $this->conn->prepare("SELECT id FROM admins WHERE email = ?");
+        $stmt->bind_param("s", $this->email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            return -1;
+        }   
+        $hashed_password = password_hash($this->password, PASSWORD_DEFAULT);
+        // Insert the new admin record
+        $stmt = $this->conn->prepare("INSERT INTO admins (admin_name, email, password) VALUES (?, ?, ?)");
+        $stmt->bind_param("ssssss", $this->admin_name, $this->email, $hashed_password);
+        if ($stmt->execute()) {
+            $this->id = $this->conn->insert_id;
+            $stmt->close();
+            $this->conn->close();
+            self::$is_logged_in = true;
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    public static function loginAdmin($email, $password){
+        $conn = Database::getInstance()->getConn();
+        // Get the admin record with the given email
+        $stmt = $conn->prepare("SELECT * FROM admins WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        // Check if an admin was found with the given email
+        if ($result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+            // Verify the password
+            if (password_verify($password, $row['password'])) {
+                // Password is correct, create and return a new admin object
+                $admin = new Admin($row['admin_name'], $row['email'], $row['password']);
+                $admin->id = $row['id'];
+                $admin->last_login = $row['last_login'];
+                self::$is_logged_in = true;
+                return $admin;
+            }
+            else{
+              return 0;
+            }
+        }
+        // No adminfound with the given email or password is incorrect, return false
+        return false;
+    }
+    private static function deletePatient($patient_id) {
+        $conn = Database::getInstance()->getConn();
+        $stmt = $conn->prepare("DELETE FROM patients WHERE id = ?");
+        $stmt->bind_param("i", $patient_id);
+        if ($stmt->execute()) {
+            $stmt->close();
+            $conn->close();
+            return true;
+        } else {
+            return false;
+        }
+    }
     public function addUser($username, $email, $password, $phone, $address, $type) {
         $user = new User($username, $email, $password, $phone, $address, $type);
         return $user->register();
