@@ -42,6 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->bind_param("si", $user->last_login, $user->id);
         $stmt->execute();
         
+        
         $response = array('success' => true, 'type' => $type, 'user' => $user);
     } else if ($user == 0) {
         $response = array('success' => false, 'error' => "Wrong Password");
