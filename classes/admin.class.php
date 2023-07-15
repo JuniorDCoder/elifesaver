@@ -1,21 +1,30 @@
 <?php
-include('db_connect.class.php');
-class Admin extends User
+class Admin
 {
     private $conn;
-    private $id;
-    private $admin_name;
-    private $email;
-    private $password;
-    private $is_logged_in = false;
+    public $id;
+    public $admin_name;
+    public $email;
+    public $password;
+    public $last_login;
+    private static $is_logged_in = false;
     public function __construct($admin_name, $email ,$password){
-        $this->$admin_name = $admin_name;
+        $this->admin_name = $admin_name;
         $this->email = $email;
         $this->password = $password;
         $this->conn = Database::getInstance()->getConn();
     }
-    public static function isAdmin(){
+    public static function isAdmin($email){
         //Check if the user is an admin
+        $conn = Database::getInstance()->getConn();
+        $stmt = $conn->prepare("SELECT COUNT(*) FROM admins WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $count = null;
+        $stmt->execute();
+        $stmt->bind_result($count);
+        $stmt->fetch();
+      
+        return $count > 0;
     }
     public function registerAdmin(){
         // Check if the email already exists
@@ -29,13 +38,13 @@ class Admin extends User
         $hashed_password = password_hash($this->password, PASSWORD_DEFAULT);
         // Insert the new admin record
         $stmt = $this->conn->prepare("INSERT INTO admins (admin_name, email, password) VALUES (?, ?, ?)");
-        $stmt->bind_param("ssssss", $this->admin_name, $this->email, $hashed_password);
+        $stmt->bind_param("sss", $this->admin_name, $this->email, $hashed_password);
         if ($stmt->execute()) {
             $this->id = $this->conn->insert_id;
             $stmt->close();
-            $this->conn->close();
             self::$is_logged_in = true;
-            return true;
+            // Return a new instance of the Admin class with the data that was just inserted
+            return new Admin($this->admin_name, $this->email, $this->password);
         }
         else{
             return false;

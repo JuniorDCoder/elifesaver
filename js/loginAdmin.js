@@ -1,4 +1,4 @@
-const loginForm = document.querySelector('#login-form');
+const loginForm = document.querySelector('#formAuthentication');
 loginForm.addEventListener('submit', event => {
     event.preventDefault(); // prevent the default form submission behavior
 

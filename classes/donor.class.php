@@ -25,6 +25,13 @@ class Donor extends Patient{
         $this->bts_number = $bts_number;
         $this->conn = Database::getInstance()->getConn();
     }
+    public function getId() {
+        return $this->id;
+    }
+    
+    public function getBloodGroup() {
+        return $this->blood_group;
+    }
     public function registerDonor(){
         // Check if the email already exists
         $stmt = $this->conn->prepare("SELECT id FROM donors WHERE email = ?");
@@ -108,13 +115,14 @@ class Donor extends Patient{
             $conn = Database::getInstance()->getConn();
             $stmt = $conn->prepare("SELECT COUNT(*) FROM donors WHERE email = ?");
             $stmt->bind_param("s", $email);
+            $count = null;
             $stmt->execute();
             $stmt->bind_result($count);
             $stmt->fetch();
             $stmt->close();
-      
+        
             return $count > 0;
-          }
+        }
       //Delete a user
     public static function deleteDonor($donor_id) {
         $conn = Database::getInstance()->getConn();

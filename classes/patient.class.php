@@ -108,6 +108,7 @@ class Patient{
         $conn = Database::getInstance()->getConn();
         $stmt = $conn->prepare("SELECT COUNT(*) FROM patients WHERE email = ?");
         $stmt->bind_param("s", $email);
+        $count = null;
         $stmt->execute();
         $stmt->bind_result($count);
         $stmt->fetch();

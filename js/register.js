@@ -17,7 +17,7 @@ registerForm.addEventListener('submit', event => {
     
 
     // Send a POST request to the register API endpoint with the user's registration data
-    fetch('https://e309-102-244-155-207.ngrok-free.app/E%20Life%20Saver/includes/registerDonor.inc.php', {
+    fetch('https://2721-102-244-155-9.ngrok-free.app/E%20Life%20Saver/includes/registerDonor.inc.php', {
         method: 'POST',
         body: formData
     })

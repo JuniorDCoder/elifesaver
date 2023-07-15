@@ -30,7 +30,7 @@
                 
                 <li class="list-item">
                     
-                    <a href="./dashboard.php?email=<?php echo $_SESSION['email'].'&name='.$_SESSION['name']; ?>"><i class="fa-solid fa-gauge"></i> Dashboard</a>
+                    <a href="./dashboard.php"><i class="fa-solid fa-gauge"></i> Dashboard</a>
                 </li>
                 <li class="list-item">
                   <a href="./results.php"><i class="fa-solid fa-clipboard"></i>Results </a>

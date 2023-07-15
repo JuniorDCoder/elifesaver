@@ -3,7 +3,7 @@ session_start();
 include('../classes/blood_appeal.class.php');
 $conn = Database::getInstance()->getConn();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if((isset($_SESSION['patient']) ) || (isset($_SESSION['donor']))){
+    if((isset($_SESSION['type']))){
         $status = "pending";
         if(isset($_SESSION['patient'])){
             $blood_appeal = new BloodAppeal($_POST['patient_id'], $_POST['donor_id'], $_POST['health_facility_id'], $status);

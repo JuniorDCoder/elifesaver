@@ -1,13 +1,14 @@
 <?php
 
-// Login a patient or donor
+// Login a User
 include('../classes/patient.class.php');
 include('../classes/donor.class.php');
+include('../classes/admin.class.php');
 $conn = Database::getInstance()->getConn();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Set the allowed origins for CORS
-    $allowed_origins = array('http://localhost:8080', 'https://9a71-41-202-207-145.ngrok-free.app');
+    $allowed_origins = array('http://localhost:8080', 'https://2721-102-244-155-9.ngrok-free.app', 'http://localhost:8080/E%20Life%20Saver/administrator');
 
     // Get the origin header from the request
     $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
@@ -32,6 +33,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $user = Donor::loginDonor($_POST['email'], $_POST['password']);
         $type = "donor";
     }
+    else if (Admin::isAdmin($_POST['email'])) {
+        $user = Admin::loginAdmin($_POST['email'], $_POST['password']);
+        $type = "admin";
+    }
+    
 
     if ($user) {
         
@@ -44,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         
         
         $response = array('success' => true, 'type' => $type, 'user' => $user);
-    } else if ($user == 0) {
+    } else if ($user === 0) {
         $response = array('success' => false, 'error' => "Wrong Password");
     } else if(!$user){
         $response = array('success' => false, 'error' => "Invalid email or password");

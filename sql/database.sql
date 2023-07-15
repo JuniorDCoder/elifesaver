@@ -69,12 +69,13 @@ CREATE TABLE lab_results (
 CREATE TABLE blood_appeals (
   id INT AUTO_INCREMENT PRIMARY KEY,
   patient_id INT NOT NULL,
-  donor_id INT NOT NULL,
-  health_facility_id INT NOT NULL,
+  donor_id INT DEFAULT NULL,
+  number_of_bags INT NOT NULL,
+  blood group ENUM('A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-') NOT NULL, 
+  health_facility VARCHAR NOT NULL,
   status ENUM('active', 'fulfilled', 'expired') NOT NULL DEFAULT 'active',
   FOREIGN KEY (patient_id) REFERENCES patients(id),
   FOREIGN KEY (donor_id) REFERENCES donors(id),
-  FOREIGN KEY (health_facility_id) REFERENCES health_facilities(id)
 );
 
 CREATE TABLE inventory (
