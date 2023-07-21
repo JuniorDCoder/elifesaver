@@ -4,18 +4,18 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="../css/main.css" />
+    <title>Sign In</title>
+    <link rel="stylesheet" href="../donor/css/main.css" />
   </head>
   <body>
     <nav>
       <div>
-        <img src="../images/elife_saver-removebg-preview 1.png" alt="" />
+        <img src="../donor/images/elife_saver-removebg-preview 1.png" alt="" />
       </div>
     </nav>
     <main class="grid-row container">
       <section>
-        <div><img src="../images/Blood test-pana 1.png" alt="" /></div>
+        <div><img src="../donor/images/Blood test-pana 1.png" alt="" /></div>
       </section>
       <section class="form-container">
         <div>
@@ -36,7 +36,8 @@
           </form>
         </div>
         <div class="forgot">Forgot your password?</div>
-        <div>Don’t have an account? <a href="./register.php">Register</a></div>
+        <div>Become a Donor? <a href="../donor/register.php">Register</a></div>
+        <div>Register as a Patient? <a href="../patient/register.php">Continue</a></div>
       </section>
     </main>
     <script src="../js/login.js"></script>

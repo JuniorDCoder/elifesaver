@@ -13,7 +13,17 @@ setcookie('type', '', time() - 3600, '/');
 setcookie('name', '', time() - 3600, '/');
 setcookie('email', '', time() - 3600, '/');
 
-// Redirect the user to the login page
-header('Location: ../');
+// Get the current URL
+$current_url = $_SERVER['HTTP_REFERER'];
+
+// Check if the logout is pressed from the administrator folder
+if (strpos($current_url, '/administrator/') !== false) {
+    // Redirect to the index.php in the same folder
+    header('Location: ../administrator/index.php');
+} else {
+    // Redirect to the index.php one directory out of the view folder
+    header('Location: ../index.php');
+}
+
 exit();
 ?>

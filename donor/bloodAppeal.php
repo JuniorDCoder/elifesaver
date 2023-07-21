@@ -9,7 +9,7 @@
                         Make a new blood appeal</h3>
                         <p>Fill the form below to send a blood appeal request</p>
                     </center> 
-                    <div><img src="../images/Blood donation-pana 1.png" alt="" />
+                    <div><img src="./images/Blood donation-pana 1.png" alt="" />
                     </div>
                     </section>
                   <section class="form-container">
@@ -55,6 +55,6 @@
         </main>
     </div>
 
-    <!-- <script src="../script.js"></script> -->
+    <!-- <script src="./script.js"></script> -->
   </body>
 </html>

@@ -10,6 +10,7 @@ if (!isset($_SESSION['type']) || !isset($_SESSION['name']) || !isset($_SESSION['
       exit();
   } else {
       // If the localStorage variables are set, set the session variables from the localStorage variables
+      $_SESSION['id'] = $_COOKIE['id'];
       $_SESSION['type'] = $_COOKIE['type'];
       $_SESSION['name'] = $_COOKIE['name'];
       $_SESSION['email'] = $_COOKIE['email'];
@@ -17,6 +18,7 @@ if (!isset($_SESSION['type']) || !isset($_SESSION['name']) || !isset($_SESSION['
 }
 
 // Get the session variables
+$userId = $_SESSION['id'];
 $userType = $_SESSION['type'];
 $userName = $_SESSION['name'];
 $userEmail = $_SESSION['email'];

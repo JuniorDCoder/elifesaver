@@ -1,5 +1,5 @@
 <?php
-$allowed_origins = array('http://localhost:8080', 'https://b112-102-244-155-36.ngrok-free.app');
+$allowed_origins = array('http://localhost:8080', 'https://af25-41-202-207-144.ngrok-free.app');
 
 // Get the origin header from the request
 $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
@@ -13,26 +13,33 @@ if (in_array($origin, $allowed_origins)) {
     header('Cache-Control: no-cache, no-store, must-revalidate');
 }
 
-include('../../classes/donor.class.php');
-include('../../classes/patient.class.php');
+include('../classes/patient.class.php');
+include('../classes/donor.class.php');
 $conn = Database::getInstance()->getConn();
 
-//include('../config/autoload.config.php');
-// Register a new donor
+// Register a new patient
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     if ($_POST['password'] !== $_POST['confirm_password']) {
         $response = array('success' => false, 'error' => 'Password and confirm password do not match');
     } else {
-        include_once('../../config/bts_number.config.php');
-        $donor = new Donor($_POST['name'], $_POST['gender'], $_POST['email'], $_POST['password'], $_POST['phone'], $_POST['address'], $_POST['city'], $_POST['blood_group'], $bts_number);
-        $register_result = $donor->registerDonor();
+
+        $patient = new Patient($_POST['name'], $_POST['gender'], $_POST['password'], $_POST['email'], $_POST['phone']);
+        $register_result = $patient->registerPatient();
+
+        // Update the last login time for the patient
+        $patient->last_login = date('Y-m-d H:i:s');
+        $stmt = $conn->prepare("UPDATE patients SET last_login = ? WHERE id = ?");
+        $stmt->bind_param("si", $patient->last_login, $patient->id);
+        $stmt->execute();
+
+
         if ($register_result === -1) {
             $response = array('success' => false, 'error' => 'Email already exists');
         } else if(!$register_result) {
             $response = array('success' => false);
         }else if ($register_result) {
-            $response = array('success' => true, 'type' => 'donor', 'user' => $donor);
+            $response = array('success' => true, 'type' => 'patient', 'user' => $patient);
         } 
     }
 

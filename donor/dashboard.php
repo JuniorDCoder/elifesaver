@@ -7,10 +7,11 @@ if (!isset($_SESSION['type']) || !isset($_SESSION['name']) || !isset($_SESSION['
     // If the session variables are not set, check if the localStorage variables are set
     if (!isset($_COOKIE['type']) || !isset($_COOKIE['name']) || !isset($_COOKIE['email'])) {
         // If the localStorage variables are not set, redirect the user to the login page
-        header('Location: login.php');
+        header('Location: ../index.php');
         exit();
     } else {
         // If the localStorage variables are set, set the session variables from the localStorage variables
+        $_SESSION['id'] = $_COOKIE['id'];
         $_SESSION['type'] = $_COOKIE['type'];
         $_SESSION['name'] = $_COOKIE['name'];
         $_SESSION['email'] = $_COOKIE['email'];
@@ -18,6 +19,7 @@ if (!isset($_SESSION['type']) || !isset($_SESSION['name']) || !isset($_SESSION['
 }
 
 // Get the session variables
+$userId = $_SESSION['id'];
 $userType = $_SESSION['type'];
 $userName = $_SESSION['name'];
 $userEmail = $_SESSION['email'];

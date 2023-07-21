@@ -1,3 +1,13 @@
+<?php
+// Start the session
+session_start();
+if (!isset($_SESSION['type']) || !isset($_SESSION['name']) || !isset($_SESSION['email'])){
+  header('Location: index.php');
+  exit();
+}
+
+?>
+
 <!DOCTYPE html>
 
 <!-- =========================================================
@@ -503,7 +513,7 @@
                             </div>
                           </div>
                           <div class="flex-grow-1">
-                            <span class="fw-semibold d-block">John Doe</span>
+                            <span class="fw-semibold d-block"><?php echo $_SESSION['name']; ?></span>
                             <small class="text-muted">Admin</small>
                           </div>
                         </div>

@@ -17,7 +17,7 @@ registerForm.addEventListener('submit', event => {
     
 
     // Send a POST request to the register API endpoint with the user's registration data
-    fetch('https://2721-102-244-155-9.ngrok-free.app/E%20Life%20Saver/includes/registerDonor.inc.php', {
+    fetch('https://af25-41-202-207-144.ngrok-free.app/E%20Life%20Saver/includes/registerDonor.inc.php', {
         method: 'POST',
         body: formData
     })
@@ -25,6 +25,18 @@ registerForm.addEventListener('submit', event => {
     .then(data => {
         if (data.success) {
             // If registration is successful, redirect the user to the dashboard page
+
+            const id = data.user.id;
+            const userType = data.type;
+            const userName = data.user[userType + '_name'];
+            const userEmail = data.user['email'];
+
+            // Set the session variables as cookies
+            document.cookie = `id=${id}; path=/`;
+            document.cookie = `type=${userType}; path=/`;
+            document.cookie = `name=${userName}; path=/`;
+            document.cookie = `email=${userEmail}; path=/`;
+
             window.location.href = 'dashboard.php';
         } else {
             // If authentication fails, display an error message

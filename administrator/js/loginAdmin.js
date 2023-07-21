@@ -8,7 +8,7 @@ loginForm.addEventListener('submit', event => {
     const password = formData.get('password');
 
     // Send a POST request to the login API endpoint with the user's credentials
-    fetch('https://2721-102-244-155-9.ngrok-free.app/E%20Life%20Saver/includes/login.inc.php', {
+    fetch('https://af25-41-202-207-144.ngrok-free.app/E%20Life%20Saver/includes/login.inc.php', {
         method: 'POST',
         body: formData
     })
@@ -16,11 +16,19 @@ loginForm.addEventListener('submit', event => {
     .then(data => {
         if (data.success) {
             // If authentication is successful, set the session variables and redirect the user to their dashboard
+            
+            const id = data.user.id;
             const userType = data.type;
             const userName = data.user[userType + '_name'];
             const userEmail = data.user['email'];
-        
+            
+            if (userType != 'admin') {
+                //window.location.href = '../index.php';
+                alert(`You are trying to login as a ${userType} via admin portal. Proceed to elifesaver.online/view/login.php to login`);
+                return;
+            }
             // Set the session variables as cookies
+            document.cookie = `id=${id}; path=/`;
             document.cookie = `type=${userType}; path=/`;
             document.cookie = `name=${userName}; path=/`;
             document.cookie = `email=${userEmail}; path=/`;

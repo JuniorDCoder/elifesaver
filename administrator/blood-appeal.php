@@ -1,3 +1,13 @@
+<?php
+// Start the session
+session_start();
+if (!isset($_SESSION['type']) || !isset($_SESSION['name']) || !isset($_SESSION['email'])){
+  header('Location: index.php');
+  exit();
+}
+
+?>
+
 <!DOCTYPE html>
 
 <!-- =========================================================
@@ -503,7 +513,7 @@
                             </div>
                           </div>
                           <div class="flex-grow-1">
-                            <span class="fw-semibold d-block">John Doe</span>
+                            <span class="fw-semibold d-block"><?php echo $_SESSION['name']; ?></span>
                             <small class="text-muted">Admin</small>
                           </div>
                         </div>
@@ -568,11 +578,11 @@
                       <small class="text-muted float-end">Default label</small>
                     </div>
                     <div class="card-body">
-                      <form>
+                      <form action="" method="POST">
                         <div class="row mb-3">
                           <label class="col-sm-2 col-form-label" for="basic-default-name">Name</label>
                           <div class="col-sm-10">
-                            <input type="text" class="form-control" id="basic-default-name" placeholder="search name" />
+                          <input type="text" name="name" class="form-control" id="basic-default-name" placeholder="search name" />  
                           </div>
                         </div>
 
@@ -624,7 +634,7 @@
                         </div>
                         
                         <div class="row mb-3">
-                          <label class="col-sm-2 col-form-label" for="basic-default-phone">Phone No</label>
+                          <label class="col-sm-2 col-form-label" for="basic-default-phone">Number Of Bags</label>
                           <div class="col-sm-10">
                             <input
                               type="number"

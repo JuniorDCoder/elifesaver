@@ -16,13 +16,13 @@
       integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/main.css">
   </head>
   <body>
     <div>
         <div class="sidebar full-sidebar" id="sidebar">
-          <div class="logo"><img src="../images/20230706_202613.png" alt="">
+          <div class="logo"><img src="./images/20230706_202613.png" alt="">
             <div class="flex-row">
                 <div>Menu</div>
                 <div id="sidebar-close" class="none-icon"><i class="fa-solid fa-xmark "></i></div>
@@ -53,7 +53,7 @@
               </li>
             </ul>
           </div>
-          <div class="logout"><a href="../includes/logout.php"><i class="fa-sharp fa-solid fa-right-from-bracket"></i>&nbsp&nbsp Logout</a></div>
+          <div class="logout"><a href="./includes/logout.php"><i class="fa-sharp fa-solid fa-right-from-bracket"></i>&nbsp&nbsp Logout</a></div>
         </div>
         <main class="menu-content full">
             <header>
@@ -66,7 +66,7 @@
                         <ul>
                             <li class="name"><i class="fa-sharp fa-solid fa-droplet"></i></li>
                             <li class="name"><i class="fa-solid fa-bell"></i></li>
-                            <li><img src="../images/Ellipse 2.png" alt=""><span> 1500 <br> Credits</span></li>
+                            <li><img src="./images/Ellipse 2.png" alt=""><span> 1500 <br> Credits</span></li>
                         </ul>
                     </div>
                 </nav>

@@ -13,13 +13,13 @@
       integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/main.css">
   </head>
   <body>
       <div>
         <div class="sidebar full-sidebar" id="sidebar">
-            <div class="logo"><img src="../images/20230706_202613.png" alt="">
+            <div class="logo"><img src="images/20230706_202613.png" alt="">
               <div class="flex-row">
                   <div>Menu</div>
                   <div id="sidebar-close" class="none-icon"><i class="fa-solid fa-xmark "></i></div>

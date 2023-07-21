@@ -5,17 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Become a Donor</title>
-    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="css/main.css" />
   </head>
   <body>
     <nav>
       <div>
-        <img src="../images/elife_saver-removebg-preview 1.png" alt="" />
+        <img src="images/elife_saver-removebg-preview 1.png" alt="" />
       </div>
     </nav>
     <main class="grid-row container">
       <section>
-        <div><img src="../images/Blood test-amico 2.png" alt="" /></div>
+        <div><img src="images/Blood test-amico 2.png" alt="" /></div>
       </section>
       <section class="form-container">
         <div>
@@ -73,9 +73,9 @@
           </form>
         </div>
         <div class="forgot">Forgot your password?</div>
-        <div>Already have an account? <a href="./login.php">Login</a></div>
+        <div>Already have an account? <a href="../view/login.php">Login</a></div>
       </section>
     </main>
-    <script src="../js/register.js"></script>
+    <script src="./js/register.js"></script>
   </body>
 </html>

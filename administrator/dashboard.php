@@ -11,13 +11,16 @@ if (!isset($_SESSION['type']) || !isset($_SESSION['name']) || !isset($_SESSION['
         exit();
     } else {
         // If the localStorage variables are set, set the session variables from the localStorage variables
+        $_SESSION['id'] = $_COOKIE['id'];
         $_SESSION['type'] = $_COOKIE['type'];
         $_SESSION['name'] = $_COOKIE['name'];
         $_SESSION['email'] = $_COOKIE['email'];
+        
     }
 }
 
 // Get the session variables
+$userId = $_SESSION['id'];
 $userType = $_SESSION['type'];
 $userName = $_SESSION['name'];
 $userEmail = $_SESSION['email'];
@@ -527,7 +530,7 @@ $userEmail = $_SESSION['email'];
                             </div>
                           </div>
                           <div class="flex-grow-1">
-                            <span class="fw-semibold d-block">John Doe</span>
+                            <span class="fw-semibold d-block"><?php echo $userName; ?></span>
                             <small class="text-muted">Admin</small>
                           </div>
                         </div>

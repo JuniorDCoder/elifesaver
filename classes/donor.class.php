@@ -1,5 +1,5 @@
 <?php
-class Donor extends Patient{
+class Donor{
     public $id;
     public $donor_name;
     public $gender;

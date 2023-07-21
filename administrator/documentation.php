@@ -1,3 +1,13 @@
+<?php
+// Start the session
+session_start();
+if (!isset($_SESSION['type']) || !isset($_SESSION['name']) || !isset($_SESSION['email'])){
+  header('Location: index.php');
+  exit();
+}
+
+?>
+
 <!DOCTYPE html>
 <html>
 
