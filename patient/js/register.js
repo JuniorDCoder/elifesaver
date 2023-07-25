@@ -14,7 +14,7 @@ registerForm.addEventListener('submit', event => {
     
 
     // Send a POST request to the register API endpoint with the user's registration data
-    fetch('https://af25-41-202-207-144.ngrok-free.app/E%20Life%20Saver/includes/registerPatient.inc.php', {
+    fetch('https://elifesaver.online/includes/registerPatient.inc.php', {
         method: 'POST',
         body: formData
     })
@@ -34,7 +34,7 @@ registerForm.addEventListener('submit', event => {
             document.cookie = `name=${userName}; path=/`;
             document.cookie = `email=${userEmail}; path=/`;
 
-            window.location.href = 'dashboard.php';
+            window.location.href = './dashboard.php';
         } else {
             // If authentication fails, display an error message
             alert(data.error);

@@ -1,5 +1,5 @@
 <?php
-$allowed_origins = array('http://localhost:8080', 'https://af25-41-202-207-144.ngrok-free.app');
+$allowed_origins = array('https://elifesaver.online','http://localhost:8080', 'https://5208-102-244-155-27.ngrok-free.app');
 
 // Get the origin header from the request
 $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($register_result === -1) {
             $response = array('success' => false, 'error' => 'Email already exists');
         } else if(!$register_result) {
-            $response = array('success' => false);
+            $response = array('success' => false, 'error' => 'Some error occured. Try again!');
         }else if ($register_result) {
             $response = array('success' => true, 'type' => 'patient', 'user' => $patient);
         } 

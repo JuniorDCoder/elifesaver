@@ -50,7 +50,6 @@ class Patient{
         if ($stmt->execute()) {
             $this->id = $this->conn->insert_id;
             $stmt->close();
-            $this->conn->close();
             self::$is_logged_in = true;
             return new Patient($this->patient_name, $this->gender, $this->password, $this->email, $this->phone);
         }

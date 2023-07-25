@@ -12,6 +12,7 @@ class Donor{
     public $blood_group;
     public $last_donation_date;
     public $bts_number;
+    private static $is_logged_in = false;
     private $conn;
     public function __construct($donor_name, $gender, $email, $password, $phone, $address, $city, $blood_group, $bts_number) {
         $this->donor_name = $donor_name;
@@ -32,27 +33,32 @@ class Donor{
     public function getBloodGroup() {
         return $this->blood_group;
     }
-    public function registerDonor(){
+    
+    public function registerDonor() {
         // Check if the email already exists
         $stmt = $this->conn->prepare("SELECT id FROM donors WHERE email = ?");
         $stmt->bind_param("s", $this->email);
         $stmt->execute();
         $result = $stmt->get_result();
+        
         if ($result->num_rows > 0) {
+            $stmt->close(); // Close the statement before returning
             return -1;
-        }   
+        }
+    
         $hashed_password = password_hash($this->password, PASSWORD_DEFAULT);
+    
         // Insert the new donor record
         $stmt = $this->conn->prepare("INSERT INTO donors (donor_name, gender, email, password, phone, address, city, blood_group, bts_number) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("sssssssss", $this->donor_name, $this->gender, $this->email, $hashed_password, $this->phone, $this->address, $this->city, $this->blood_group, $this->bts_number);
+    
         if ($stmt->execute()) {
             $this->id = $this->conn->insert_id;
             $stmt->close();
-            $this->conn->close();
-            
+            self::$is_logged_in = true;
+    
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
@@ -96,7 +102,7 @@ class Donor{
       }
       
       // Update the user's personal information
-        public function updateDonorPersonalInfo($phone, $address, $city) {
+    public function updateDonorPersonalInfo($phone, $address, $city) {
             $stmt = $this->conn->prepare("UPDATE donors SET phone = ?, address = ?, city = ? WHERE id = ?");
             $stmt->bind_param("sssi", $phone, $address, $city, $this->id);
             if ($stmt->execute()) {
@@ -110,7 +116,7 @@ class Donor{
                 return false;
             }
         }
-        public static function isDonor($email) {
+    public static function isDonor($email) {
             // Check if the email belongs to a donor
             $conn = Database::getInstance()->getConn();
             $stmt = $conn->prepare("SELECT COUNT(*) FROM donors WHERE email = ?");

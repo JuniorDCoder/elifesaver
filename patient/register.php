@@ -22,7 +22,7 @@
           <h3>Register</h3>
         </div>
         <div>
-          <form id="register-form" action="../inludes/registerPatient.inc.php" method="POST">
+          <form id="register-form" action="../includes/registerPatient.inc.php" method="POST">
             <div>
               <input type="text" required name="name" placeholder="Name" />
             </div>
@@ -60,7 +60,7 @@
               <input type="text" placeholder="Address" />
             </div> -->
             <div>
-              <input type="password" nmae="password" placeholder="Password" />
+              <input type="password" name="password" placeholder="Password" />
             </div>
             <div>
               <input type="password" name="confirm_password" placeholder="Confirm Password" />
@@ -86,6 +86,6 @@
         <div>Already have an account? <a href="../view/login.php">Login</a></div>
       </section>
     </main>
-    <script src="js/register.js"></script>
+    <script src="./js/register.js"></script>
   </body>
 </html>

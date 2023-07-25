@@ -7,7 +7,6 @@ class BloodAppeal {
   // Properties
   public $id;
   public $patient_id;
-  public $number_of_bags;
   public $health_facility_id;
   public $donor_id;
   public $status;

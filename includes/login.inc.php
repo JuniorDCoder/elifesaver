@@ -8,7 +8,7 @@ $conn = Database::getInstance()->getConn();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Set the allowed origins for CORS
-    $allowed_origins = array('https://elifesaver.online', 'http://localhost:8080', 'https://af25-41-202-207-144.ngrok-free.app');
+    $allowed_origins = array('https://elifesaver.online','http://localhost:8080', 'https://ddc5-41-202-207-145.ngrok-free.app');
 
     // Get the origin header from the request
     $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';

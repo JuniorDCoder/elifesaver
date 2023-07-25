@@ -10,7 +10,7 @@ registerForm.addEventListener('submit', event => {
         
 
     // Send a POST request to the register API endpoint with the admin's registration data
-    fetch('https://af25-41-202-207-144.ngrok-free.app/E%20Life%20Saver/includes/registerAdmin.inc.php', {
+    fetch('https://5208-102-244-155-27.ngrok-free.app/E%20Life%20Saver/includes/registerAdmin.inc.php', {
         method: 'POST',
         body: formData
     })
