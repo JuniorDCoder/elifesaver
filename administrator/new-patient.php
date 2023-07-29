@@ -7,62 +7,10 @@ if (!isset($_SESSION['type']) || !isset($_SESSION['name']) || !isset($_SESSION['
 }
 
 ?>
-<?php
-$host = "localhost";
-$username = "u944161398_e_life_saver";
-$password = "nu7DRg7MTMfyfNN";
-$database = "u944161398_e_life_saver";
-
-// Connect to the database
-$conn = new mysqli($host, $username, $password, $database);
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
-
-// Get the list of phone numbers
-$query = "SELECT phone FROM patients UNION SELECT phone FROM donors";
-$result = $conn->query($query);
-
-// Create an array of phone numbers
-$phone_numbers = array();
-if ($result->num_rows > 0) {
-  while ($row = $result->fetch_assoc()) {
-    $phone_numbers[] = $row["phone"];
-  }
-}
-
-// Close the database connection
-$conn->close();
-
-// Create the HTML form
-/*echo '<form action="" method="post">';
-echo '<input type="text" name="phone" placeholder="Start typing to search...">';
-echo '<input type="submit" value="Submit">';
-echo '</form>'; */
-?> 
-<?php
-$phone="";
-// Get the value of the phone input field
-$phone = $_POST["phone"];
-
-// Check if the phone input field is empty
-if ($phone == "") {
-  // The phone input field is empty
-} else {
-  // The phone input field is not empty
-  // Get the list of phone numbers that contain the value of the phone input field
-  $filtered_phone_numbers = array();
-  foreach ($phone_numbers as $phone_number) {
-    if (stristr($phone_number, $phone)) {
-      $filtered_phone_numbers[] = $phone_number;
-    }
-  }
-?>
 
 <!DOCTYPE html>
 
 
-<!-- beautify ignore:start -->
 <html
   lang="en"
   class="light-style layout-menu-fixed"
@@ -78,7 +26,7 @@ if ($phone == "") {
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Admin- Dashboard E life Saver</title>
+    <title>Dashboard - Analytics | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
 
     <meta name="description" content="" />
 
@@ -194,7 +142,7 @@ if ($phone == "") {
           <ul class="menu-inner py-1">
             <!-- Dashboard -->
             <li class="menu-item active">
-              <a href="dashboard.php" class="menu-link">
+              <a href="index.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Analytics">Dashboard</div>
               </a>
@@ -588,7 +536,7 @@ if ($phone == "") {
                       <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="../includes/logout.php">
+                      <a class="dropdown-item" href="../logout.php">
                         <i class="bx bx-power-off me-2"></i>
                         <span class="align-middle">Log Out</span>
                       </a>
@@ -607,7 +555,12 @@ if ($phone == "") {
             <!-- Content -->
 
             <div class="container-xxl flex-grow-1 container-p-y">
-              <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Appeals/</span> New Appeals</h4>
+              <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Donors/</span> Add Patients</h4>
+              
+              
+              
+              
+              
 
               <!-- Basic Layout & Basic with Icons -->
               <div class="row">
@@ -615,110 +568,245 @@ if ($phone == "") {
                 <div class="col-xxl">
                   <div class="card mb-4">
                     <div class="card-header d-flex align-items-center justify-content-between">
-                      <h5 class="mb-0">creat new blood appeal</h5>
-                      <small class="text-muted float-end">Send blood appeal</small>
+                      <h5 class="mb-0">New Donor</h5>
+                      <small class="text-muted float-end">Personal Information</small>
                     </div>
-                    <div class="container-xxl flex-grow-1 container-p-y">
-                    <div class="row mb-3">
-                  <label class="col-sm-2 col-form-label" for="search">Search</label>
-                  <div class="col-sm-10">
-                   <form action="" method="post"> 
-                   <input type="text" name="phone" placeholder="Start typing to search" id="search">
-                   <input type="submit" value="Submit">
-                   </form>
-                  
-                  </div>
-                   
-                    
-                    <div class="row mb-3">
                     <div class="card-body">
-                      <form action="../includes/create_blood_appeal.inc.php" method="POST">
-                        <div class="row mb-3">
-                          <label class="col-sm-2 col-form-label" for="basic-default-name"> select user</label>
-                          <div class="col-sm-10">
-                         <!-- <input type="text" name="name" class="form-control" id="basic-default-name" placeholder="search name" />  -->
-                         <select>
-                             <?php
-                             foreach ($filtered_phone_numbers as $phone_number) {
-                          echo '<option value="' . $phone_number . '">' . $phone_number . '</option>';
-                           }
-                            echo '</select>';
-                             }
-
-                             ?>
-                         </select>
-                         
-                          </div>
-                        </div>
-
-                          
-                         <div class="flex-row">
-                          <label class="col-sm-2 col-form-label" for="basic-default-company">No of of bags</label>
-                            
-                            <input name="number_of_bags" type="number" id="" required>
-                          </div>
-                          </div>
-                         
-                         
-                         
-                        <div class="row mb-3">
-                          <label class="col-sm-2 col-form-label" for="blood group">Blood group</label>
-                          <div class="col-sm-10">
-                            <select name="blood_group" id="blood group">
-                          <option value="">Select Blood Group</option>
-                          <option value="A+">A+</option>
-                          <option value="A-">A-</option>
-                           <option value="B+">B+</option>
-                          <option value="B-">B-</option>
-                           <option value="AB+">AB+</option>
-                            <option value="AB-">AB-</option>
-                          <option value="O+">O+</option>
-                          <option value="O-">O-</option>
-                           <option value="dontknow">Dont know</option>
-                        </select>
-                          </div>
-                        </div>
-                       
                         
-                        
+                      <form action="../includes/registerPatient.inc.php" method="POST">
                         <div class="row mb-3">
-                          <label class="col-sm-2 col-form-label" for="basic-default-message">Medical info</label>
+                          <label class="col-sm-2 col-form-label" for="basic-default-name">Name</label>
                           <div class="col-sm-10">
-                            <textarea
-                              name="medical_info"
-                              id="basic-default-message"
-                              class="form-control"
-                              placeholder="Patient suffering from....?"
-                              aria-label="Hi, Do you have a moment to talk Joe?"
-                              aria-describedby="basic-icon-default-message2"
-                            ></textarea>
+                            <input type="text" class="form-control" id="basic-default-name" name="name" placeholder="enter donor name" />
                           </div>
                         </div>
-                       <!-- <div class="row mb-3">
+                        
+                         <div class="row mb-3">
+                          <label class="col-sm-2 col-form-label" for="email">Email</label>
+                          <div class="col-sm-10">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="enter email address" />
+                          </div>
+                        </div>
+                        
+                         <div class="row mb-3">
+                          <label class="col-sm-2 col-form-label" for="phone-number">Phone Number</label>
+                          <div class="col-sm-10">
+                            <input type="text" class="form-control" id="phone-number" name="phone" placeholder="enter phone number" />
+                          </div>
+                        </div>
+                        
+                          <div class="row mb-3">
+                          <label class="col-sm-2 col-form-label" for="basic-default-name">Gender</label>
+                          <div class="col-sm-10">
+
+                            <div class="flex-row">
+                              <input type="radio" name="gender" value="female" />
+                              <label for="huey">Female</label>
+                             </div> 
+                              <div class="flex-row">
+                              <input type="radio" name="gender" value="male" />
+                               <label for="dewey">Male</label>
+                               </div>
+                          </div>
+                        </div>
+                        
+                       <!-- 
+
+                        <div class="row mb-3">
                           <label class="col-sm-2 col-form-label" for="basic-default-company">Blood group</label>
                           <div class="col-sm-10">
                             <select
                               type="text"
                               class="form-control"
-                              id="basic-default-company"
-                              placeholder="ACME Inc."
+                              id=""
+                              placeholder=""
+                              name="blood_group"
                             />
-                            <option value="">Compatible Donors</option>
-                            <option value="">All Donors</option>
-                           
+                            <option value="">Select Blood Group</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="O-">O-</option>
+                            <option value="O+">O+</option>
+                            <option value="AB">AB</option>
                           </select>
                           </div>
-                        </div> -->
-                        <div class="row justify-content-end">
+                        </div>
+                        
+                        <div class="row mb-3">
+                          <label class="col-sm-2 col-form-label" for="city">City</label>
                           <div class="col-sm-10">
-                            <button type="submit" class="btn btn-primary">Appeal</button>
+                            <input
+                              type="text"
+                              id="city"
+                              name="city"
+                              class="form-control phone-mask"
+                              placeholder="enter your city"
+                           
+                            />
                           </div>
                         </div>
+                      
+                       <div class="row mb-3">
+                          <label class="col-sm-2 col-form-label" for="address">email</label>
+                          <div class="col-sm-10">
+                            <input
+                              type="text"
+                              name="email"
+                              id="email"
+                              class="form-control phone-mask"
+                              placeholder="enter your address"/>
+                           
+                            
+                          </div>
+                        </div>
+                          -->
+                        
+                        <div class="row mb-3">
+                          <label class="col-sm-2 col-form-label" for="pwd">Password</label>
+                          <div class="col-sm-10">
+                            <input
+                              type="text"
+                              name="password"
+                              id="pwd"
+                              class="form-control phone-mask"
+                              placeholder="enter your passwordt"
+                           
+                            />
+                          </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                          <label class="col-sm-2 col-form-label" for="cpass">Confirm Password</label>
+                          <div class="col-sm-10">
+                            <input
+                              type="text"
+                               name="confirm_password"
+                              id="cpass"
+                              class="form-control phone-mask"
+                              placeholder="confirm password"
+                           
+                            />
+                            
+                             <div>
+              <button class="btn" type="submit">Register</button>
+            </div>
+                            
+                          </div>
+                        </div>
+                        
+                        
+                      
                       </form>
                     </div>
                   </div>
                 </div>
-                
+                 <!-- Basic with Icons
+                 <div class="col-xxl">
+                    <div class="card mb-4">
+                      <div class="card-header d-flex align-items-center justify-content-between">
+                        <h5 class="mb-0">Donor Information</h5>
+                        <small class="text-muted float-end">Merged input group</small>
+                      </div>
+                      <div class="card-body">
+                        <form>
+                          <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label" for="basic-icon-default-fullname">Name</label>
+                            <div class="col-sm-10">
+                              <div class="input-group input-group-merge">
+                                <span id="basic-icon-default-fullname2" class="input-group-text"
+                                  ><i class="bx bx-user"></i
+                                ></span>
+                                <input
+                                  type="text"
+                                  class="form-control"
+                                  id="basic-icon-default-fullname"
+                                  placeholder="John Doe"
+                                  aria-label="John Doe"
+                                  aria-describedby="basic-icon-default-fullname2"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label" for="basic-icon-default-company">Company</label>
+                            <div class="col-sm-10">
+                              <div class="input-group input-group-merge">
+                                <span id="basic-icon-default-company2" class="input-group-text"
+                                  ><i class="bx bx-buildings"></i
+                                ></span>
+                                <input
+                                  type="text"
+                                  id="basic-icon-default-company"
+                                  class="form-control"
+                                  placeholder="ACME Inc."
+                                  aria-label="ACME Inc."
+                                  aria-describedby="basic-icon-default-company2"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label" for="basic-icon-default-email">Email</label>
+                            <div class="col-sm-10">
+                              <div class="input-group input-group-merge">
+                                <span class="input-group-text"><i class="bx bx-envelope"></i></span>
+                                <input
+                                  type="text"
+                                  id="basic-icon-default-email"
+                                  class="form-control"
+                                  placeholder="john.doe"
+                                  aria-label="john.doe"
+                                  aria-describedby="basic-icon-default-email2"
+                                />
+                                <span id="basic-icon-default-email2" class="input-group-text">@example.com</span>
+                              </div>
+                              <div class="form-text">You can use letters, numbers & periods</div>
+                            </div>
+                          </div>
+                          <div class="row mb-3">
+                            <label class="col-sm-2 form-label" for="basic-icon-default-phone">Phone No</label>
+                            <div class="col-sm-10">
+                              <div class="input-group input-group-merge">
+                                <span id="basic-icon-default-phone2" class="input-group-text"
+                                  ><i class="bx bx-phone"></i
+                                ></span>
+                                <input
+                                  type="text"
+                                  id="basic-icon-default-phone"
+                                  class="form-control phone-mask"
+                                  placeholder="658 799 8941"
+                                  aria-label="658 799 8941"
+                                  aria-describedby="basic-icon-default-phone2"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row mb-3">
+                            <label class="col-sm-2 form-label" for="basic-icon-default-message">Message</label>
+                            <div class="col-sm-10">
+                              <div class="input-group input-group-merge">
+                                <span id="basic-icon-default-message2" class="input-group-text"
+                                  ><i class="bx bx-comment"></i
+                                ></span>
+                                <textarea
+                                  id="basic-icon-default-message"
+                                  class="form-control"
+                                  placeholder="Hi, Do you have a moment to talk Joe?"
+                                  aria-label="Hi, Do you have a moment to talk Joe?"
+                                  aria-describedby="basic-icon-default-message2"
+                                ></textarea>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row justify-content-end">
+                            <div class="col-sm-10">
+                              <button type="submit" class="btn btn-primary">Send</button>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div> -->
               </div>
             </div>
 

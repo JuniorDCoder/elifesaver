@@ -581,6 +581,56 @@ $userEmail = $_SESSION['email'];
           <!-- Content wrapper -->
           <div class="content-wrapper">
             <!-- Content -->
+            
+            <?php
+$host = "localhost";
+$username = "u944161398_e_life_saver";
+$password = "nu7DRg7MTMfyfNN";
+$database = "u944161398_e_life_saver";
+
+// Connect to the database
+$conn = new mysqli($host, $username, $password, $database);
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+
+// Get the total number of blood requests
+$query = "SELECT COUNT(*) AS total_blood_requests FROM blood_appeals";
+$result = $conn->query($query);
+$total_blood_requests = $result->fetch_assoc()["total_blood_requests"];
+
+// Get the total number of registered donors
+$query = "SELECT COUNT(*) AS total_registered_donors FROM donors";
+$result = $conn->query($query);
+$total_registered_donors = $result->fetch_assoc()["total_registered_donors"];
+
+// Get the total number of blood bags
+$query = "SELECT COUNT(*) AS total_blood_bags FROM blood_bank";
+$result = $conn->query($query);
+$total_blood_bags = $result->fetch_assoc()["total_blood_bags"];
+
+// Get the total number of registered patients
+$query = "SELECT COUNT(*) AS total_registered_patients FROM patients";
+$result = $conn->query($query);
+$total_registered_patients = $result->fetch_assoc()["total_registered_patients"];
+
+// Get the number of pending blood requests
+$query = "SELECT COUNT(*) AS total_pending_blood_requests FROM blood_appeals WHERE status = 'pending'";
+$result = $conn->query($query);
+$total_pending_blood_requests = $result->fetch_assoc()["total_pending_blood_requests"];
+
+// Get the total number of blood bags of each blood group
+$blood_group_counts = array();
+$blood_group_ids = array(1, 2, 3, 4, 5, 6, 7, 8);
+foreach ($blood_group_ids as $blood_group_id) {
+  $query = "SELECT COUNT(*) AS total_blood_bags FROM blood_bank WHERE blood_bank_id = $blood_group_id";
+  $result = $conn->query($query);
+  $blood_group_counts[$blood_group_id] = $result->fetch_assoc()["total_blood_bags"];
+}
+
+// Close the database connection
+$conn->close();
+?>
 
             <div class="container-xxl flex-grow-1 container-p-y">
               <div class="row">
@@ -643,7 +693,7 @@ $userEmail = $_SESSION['email'];
                             </div>
                           </div>
                           <span class="fw-semibold d-block mb-1">Blood Request</span>
-                          <h3 class="card-title mb-2">15</h3>
+                          <h3 class="card-title mb-2"> <?php echo $total_blood_requests ?></h3>
                           <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> more</small>
                         </div>
                       </div>
@@ -677,14 +727,14 @@ $userEmail = $_SESSION['email'];
                             </div>
                           </div>
                           <span>Registered Donors</span>
-                          <h3 class="card-title text-nowrap mb-1">200</h3>
+                          <h3 class="card-title text-nowrap mb-1"> <?php  echo $total_registered_donors ?></h3>
                           <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> more</small>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <!-- Total Revenue -->
+                <!-- Total Request -->
                 <div class="col-12 col-lg-8 order-2 order-md-3 order-lg-2 mb-4">
                   <div class="card">
                     <div class="row row-bordered g-0">
@@ -799,7 +849,7 @@ $userEmail = $_SESSION['email'];
                             </div>
                           </div>
                           <span class="fw-semibold d-block mb-1">Registered Patients</span>
-                          <h3 class="card-title mb-2">60</h3>
+                          <h3 class="card-title mb-2"><php echo "$total_registered_patients" ?></h3>
                           <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> more</small>
                         </div>
                       </div>
@@ -837,7 +887,7 @@ $userEmail = $_SESSION['email'];
                     <div class="card-header d-flex align-items-center justify-content-between pb-0">
                       <div class="card-title mb-0">
                         <h5 class="m-0 me-2">Blood Bank</h5>
-                        <small class="text-muted">300 pines of blood</small>
+                        <small class="text-muted"><?php echo "$total_blood_bags pines of blood" ?> </small>
                       </div>
                       <div class="dropdown">
                         <button
@@ -860,8 +910,8 @@ $userEmail = $_SESSION['email'];
                     <div class="card-body">
                       <div class="d-flex justify-content-between align-items-center mb-3">
                         <div class="d-flex flex-column align-items-center gap-1">
-                          <h2 class="mb-2">8,258</h2>
-                          <span>Total Orders</span>
+                          <h2 class="mb-2"><?php echo "$total_blood_bags pines of blood" ?> </h2>
+                          <span>Blood donations</span>
                         </div>
                         <div id="orderStatisticsChart"></div>
                       </div>
@@ -878,7 +928,7 @@ $userEmail = $_SESSION['email'];
                               <small class="text-muted"></small>
                             </div>
                             <div class="user-progress">
-                              <small class="fw-semibold">20 bags</small>
+                              <small class="fw-semibold"><?php echo " $blood_group_counts[1]" ?> </small>
                             </div>
                           </div>
                         </li>
@@ -892,7 +942,7 @@ $userEmail = $_SESSION['email'];
                               <small class="text-muted">Blood group B</small>
                             </div>
                             <div class="user-progress">
-                              <small class="fw-semibold">13</small>
+                              <small class="fw-semibold"><?php echo " $blood_group_counts[3]" ?> </small>
                             </div>
                           </div>
                         </li>
@@ -906,7 +956,7 @@ $userEmail = $_SESSION['email'];
                               <small class="text-muted">Blood group AB</small>
                             </div>
                             <div class="user-progress">
-                              <small class="fw-semibold">3</small>
+                              <small class="fw-semibold"><?php echo " $blood_group_counts[5]" ?> </small>
                             </div>
                           </div>
                         </li>
@@ -922,7 +972,7 @@ $userEmail = $_SESSION['email'];
                               <small class="text-muted">Blood group O-</small>
                             </div>
                             <div class="user-progress">
-                              <small class="fw-semibold">1</small>
+                              <small class="fw-semibold">7</small>
                             </div>
                           </div>
                         </li>
@@ -968,10 +1018,10 @@ $userEmail = $_SESSION['email'];
                             <div>
                               <small class="text-muted d-block">Total no of Blood bags</small>
                               <div class="d-flex align-items-center">
-                                <h6 class="mb-0 me-1">300</h6>
+                                <h6 class="mb-0 me-1"><?php echo  $total_blood_requests;?></h6>
                                 <small class="text-success fw-semibold">
                                   <i class="bx bx-chevron-up"></i>
-                                  2.9%
+                                
                                 </small>
                               </div>
                             </div>
@@ -1030,7 +1080,7 @@ $userEmail = $_SESSION['email'];
                               <small class="text-muted"></small>
                             </div>
                             <div class="user-progress">
-                              <small class="fw-semibold">20 bags</small>
+                              <small class="fw-semibold"><?php echo $blood_group_counts[2] ?> </small>
                             </div>
                           </div>
                         </li>
@@ -1044,7 +1094,7 @@ $userEmail = $_SESSION['email'];
                               <small class="text-muted">Blood group B</small>
                             </div>
                             <div class="user-progress">
-                              <small class="fw-semibold">13</small>
+                              <small class="fw-semibold"><?php echo $blood_group_counts[4] ?></small>
                             </div>
                           </div>
                         </li>
@@ -1058,7 +1108,7 @@ $userEmail = $_SESSION['email'];
                               <small class="text-muted">Blood group AB</small>
                             </div>
                             <div class="user-progress">
-                              <small class="fw-semibold">3</small>
+                              <small class="fw-semibold"><?php echo $blood_group_counts[6] ?></small>
                             </div>
                           </div>
                         </li>
@@ -1074,7 +1124,7 @@ $userEmail = $_SESSION['email'];
                               <small class="text-muted">Blood group O-</small>
                             </div>
                             <div class="user-progress">
-                              <small class="fw-semibold">1</small>
+                              <small class="fw-semibold"><?php echo $blood_group_counts[8] ?></small>
                             </div>
                           </div>
                         </li>
@@ -1189,8 +1239,8 @@ $userEmail = $_SESSION['email'];
                  <!--  <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">ThemeSelection</a>
                 --></div>
                 <div>
-                  <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
-                  <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>
+                 <!-- <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
+                  <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>-->
 
                   <a
                     href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/"

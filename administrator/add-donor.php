@@ -578,28 +578,44 @@ if (!isset($_SESSION['type']) || !isset($_SESSION['name']) || !isset($_SESSION['
                       <small class="text-muted float-end">Personal Information</small>
                     </div>
                     <div class="card-body">
-                      <form>
+                      <form action="../includes/registerDonor.inc.php" method="POST">
                         <div class="row mb-3">
                           <label class="col-sm-2 col-form-label" for="basic-default-name">Name</label>
                           <div class="col-sm-10">
-                            <input type="text" class="form-control" id="basic-default-name" placeholder="search name" />
+                            <input type="text" class="form-control" id="basic-default-name" name="name" placeholder="enter donor name" />
                           </div>
                         </div>
-
-                        <!--<div class="flex-row">
-                          <select name="Select " id="">
-                            <option value="">Select Blood Group</option>
-                          </select>
-                          <select name="Select " id="">
-                            <option value="">Select Blood Group</option>
-                          </select>
+                        
+                         <div class="row mb-3">
+                          <label class="col-sm-2 col-form-label" for="email">Email</label>
+                          <div class="col-sm-10">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="enter email address" />
+                          </div>
                         </div>
-                        <div class="flex-row">
-                          <input type="text" placeholder="City" />
-                          <input type="text" placeholder="Address" />
-                        </div> -->
+                        
+                         <div class="row mb-3">
+                          <label class="col-sm-2 col-form-label" for="phone-number">Phone Number</label>
+                          <div class="col-sm-10">
+                            <input type="text" class="form-control" id="phone-number" name="phone" placeholder="enter phone number" />
+                          </div>
+                        </div>
+                        
+                         <div class="row mb-3">
+                          <label class="col-sm-2 col-form-label" for="basic-default-name">Gender</label>
+                          <div class="col-sm-10">
 
-
+                            <div class="flex-row">
+                              <input type="radio" name="gender" value="female" />
+                              <label for="huey">Female</label>
+                             </div>
+                              <div class="flex-row">
+                              <input type="radio" name="gender" value="male" />
+                               <label for="dewey">Male</label>
+                               </div>
+                          </div>
+                        </div>
+                        
+                        
 
                         <div class="row mb-3">
                           <label class="col-sm-2 col-form-label" for="basic-default-company">Blood group</label>
@@ -607,82 +623,89 @@ if (!isset($_SESSION['type']) || !isset($_SESSION['name']) || !isset($_SESSION['
                             <select
                               type="text"
                               class="form-control"
-                              id="basic-default-company"
-                              placeholder="ACME Inc."
+                              id=""
+                              placeholder=""
+                              name="blood_group"
                             />
-                            <option value="">A</option>
-                            <option value="">B</option>
-                            <option value="">AB</option>
-                            <option value="">O</option>
-                          </select>
-                          </div>
-                        </div>
-                        <div class="row mb-3">
-                          <label class="col-sm-2 col-form-label" for="basic-default-company">Blood group</label>
-                          <div class="col-sm-10">
-                            <select
-                              type="text"
-                              class="form-control"
-                              id="basic-default-company"
-                              placeholder="ACME Inc."
-                            />
-                            <option value="">Rh+</option>
-                            <option value="">Rh-</option>
-                           
+                            <option value="">Select Blood Group</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="O-">O-</option>
+                            <option value="O+">O+</option>
+                            <option value="AB">AB</option>
                           </select>
                           </div>
                         </div>
                         
                         <div class="row mb-3">
-                          <label class="col-sm-2 col-form-label" for="basic-default-phone">Phone No</label>
+                          <label class="col-sm-2 col-form-label" for="city">City</label>
                           <div class="col-sm-10">
                             <input
-                              type="number"
-                              id="basic-default-phone"
-                              class="form-control phone-mask"
-                              placeholder="number of blood bags"
-                              aria-label="number of blood bags"
-                              aria-describedby="basic-default-phone"
-                            />
-                          </div>
-                        </div>
-                        <div class="row mb-3">
-                          <label class="col-sm-2 col-form-label" for="basic-default-message">Medical info</label>
-                          <div class="col-sm-10">
-                            <textarea
-                              id="basic-default-message"
-                              class="form-control"
-                              placeholder="Patient suffering from....?"
-                              aria-label="Hi, Do you have a moment to talk Joe?"
-                              aria-describedby="basic-icon-default-message2"
-                            ></textarea>
-                          </div>
-                        </div>
-                        <div class="row mb-3">
-                          <label class="col-sm-2 col-form-label" for="basic-default-company">Blood group</label>
-                          <div class="col-sm-10">
-                            <select
                               type="text"
-                              class="form-control"
-                              id="basic-default-company"
-                              placeholder="ACME Inc."
-                            />
-                            <option value="">Compatible Donors</option>
-                            <option value="">All Donors</option>
+                              id="city"
+                              name="city"
+                              class="form-control phone-mask"
+                              placeholder="enter your city"
                            
-                          </select>
+                            />
                           </div>
                         </div>
-                        <div class="row justify-content-end">
+                        
+                       <div class="row mb-3">
+                          <label class="col-sm-2 col-form-label" for="address">Address</label>
                           <div class="col-sm-10">
-                            <button type="submit" class="btn btn-primary">Appeal</button>
+                            <input
+                              type="text"
+                              name="address"
+                              id="city"
+                              class="form-control phone-mask"
+                              placeholder="enter your address"/>
+                           
+                            
                           </div>
                         </div>
+                        
+                        
+                        <div class="row mb-3">
+                          <label class="col-sm-2 col-form-label" for="pwd">Password</label>
+                          <div class="col-sm-10">
+                            <input
+                              type="text"
+                              name="password"
+                              id="pwd"
+                              class="form-control phone-mask"
+                              placeholder="enter your passwordt"
+                           
+                            />
+                          </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                          <label class="col-sm-2 col-form-label" for="cpass">Confirm Password</label>
+                          <div class="col-sm-10">
+                            <input
+                              type="text"
+                               name="confirm_password"
+                              id="cpass"
+                              class="form-control phone-mask"
+                              placeholder="confirm password"
+                           
+                            />
+                            
+                             <div>
+              <button class="btn" type="submit">Register</button>
+            </div>
+                            
+                          </div>
+                        </div>
+                        
+                        
+                      
                       </form>
                     </div>
                   </div>
                 </div>
-                 <!-- Basic with Icons -->
+                 <!-- Basic with Icons
                  <div class="col-xxl">
                     <div class="card mb-4">
                       <div class="card-header d-flex align-items-center justify-content-between">
@@ -788,7 +811,7 @@ if (!isset($_SESSION['type']) || !isset($_SESSION['name']) || !isset($_SESSION['
                         </form>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
               </div>
             </div>
 

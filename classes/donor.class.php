@@ -57,7 +57,7 @@ class Donor{
             $stmt->close();
             self::$is_logged_in = true;
     
-            return true;
+            return new Donor($this->donor_name, $this->gender, $this->email, $this->password, $this->phone, $this->address,$this->city, $this->blood_group, $this->bts_number);
         } else {
             return false;
         }
@@ -100,22 +100,6 @@ class Donor{
           return false;
         }
       }
-      
-      // Update the user's personal information
-    public function updateDonorPersonalInfo($phone, $address, $city) {
-            $stmt = $this->conn->prepare("UPDATE donors SET phone = ?, address = ?, city = ? WHERE id = ?");
-            $stmt->bind_param("sssi", $phone, $address, $city, $this->id);
-            if ($stmt->execute()) {
-            $this->phone = $phone;
-            $this->address = $address;
-            $this->city = $city;
-            $stmt->close();
-            $this->conn->close();
-                return true;
-            } else {
-                return false;
-            }
-        }
     public static function isDonor($email) {
             // Check if the email belongs to a donor
             $conn = Database::getInstance()->getConn();
@@ -142,4 +126,93 @@ class Donor{
             return false;
         }
     }
+    
+    public static function getDonorsByBloodGroup($blood_group) {
+        $conn = Database::getInstance()->getConn();
+        $stmt = $conn->prepare("SELECT * FROM donors WHERE blood_group = ?");
+        $stmt->bind_param("s", $blood_group);
+        $stmt->execute();
+        $result = $stmt->get_result();
+    
+        $donors = array();
+        while ($row = $result->fetch_assoc()) {
+            $donor = new Donor($row['donor_name'], $row['gender'], $row['email'], $row['password'], $row['phone'], $row['address'], $row['city'], $row['blood_group'], $row['bts_number']);
+            $donor->id = $row['id'];
+            $donor->last_login = $row['last_login'];
+            $donor->last_donation_date = $row['last_donation_date'];
+            array_push($donors, $donor);
+        }
+        $stmt->close();
+        $conn->close();
+    
+        return $donors;
+}
+
+    public function updateDonorDetails($id, $name, $password, $phone, $address, $city){
+        if(!empty($password)){
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            
+            $stmt = $this->conn->prepare("UPDATE donors SET donor_name = ?, password = ?, phone = ?, address = ?, city = ? WHERE id = ?");
+            $stmt->bind_param("sssssi",$name, $hashed_password, $phone, $address, $city, $id);
+        }   
+        
+        else{
+            $stmt = $this->conn->prepare("UPDATE donors SET donor_name = ?, phone = ?, address = ?, city = ? WHERE id = ?");
+            $stmt->bind_param("ssssi",$name, $phone, $address, $city, $id);
+        }
+        
+        if($stmt->execute()){
+            // Update the donor object properties if the update was successful
+            $this->donor_name = $name;
+            $this->address = $address;
+            $this->city = $city;
+            $this->phone = $phone;
+            $this->id = $id;
+            if (!empty($password)) {
+                $this->password = $hashed_password;
+                
+            }
+            
+            return new Donor($this->donor_name, $this->gender, $this->email, $this->password, $this->phone, $this->address,$this->city, $this->blood_group, $this->bts_number);
+            
+        }
+        return false;
+    }
+    public static function getDonorById($id) {
+        $conn = Database::getInstance()->getConn();
+        $stmt = $conn->prepare("SELECT * FROM donors WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+            $donor = new Donor($row['donor_name'], $row['gender'], $row['email'], $row['password'], $row['phone'], $row['address'], $row['city'], $row['blood_group'], $row['bts_number']);
+            $donor->id = $row['id'];
+            $donor->last_login = $row['last_login'];
+            $donor->last_donation_date = $row['last_donation_date'];
+            return $donor;
+        }
+
+        return null;
+    }
+    public static function getDonorByBTSNumber($bts_number){
+        $conn = Database::getInstance()->getConn();
+        $stmt = $conn->prepare("SELECT * FROM donors WHERE bts_number = ?");
+        $stmt->bind_param("i", $bts_nmber);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+            $donor = new Donor($row['donor_name'], $row['gender'], $row['email'], $row['password'], $row['phone'], $row['address'], $row['city'], $row['blood_group'], $row['bts_number']);
+            $donor->id = $row['id'];
+            $donor->last_login = $row['last_login'];
+            $donor->last_donation_date = $row['last_donation_date'];
+            return $donor;
+        }
+
+        return null;
+    }
+
 }

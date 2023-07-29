@@ -25,6 +25,7 @@ $userEmail = $_SESSION['email'];
 
 include_once('general/menu.general.php');
 ?>
+
         <!-- <section>
           <div>
             <p>Hello <span class="name">Emmanuel!</span></p>
@@ -49,41 +50,51 @@ include_once('general/menu.general.php');
           </div>
           <div class="results-btn"><button class="btn">Results</button></div>
         </section> -->
+        
+            <?php
+                $patient_id = $_SESSION['id']; // get patient ID from session
+                
+                // include the BloodAppeal class file
+                require_once ('../classes/blood_appeal.class.php');
+                
+                // call the getAllForPatient method to get all blood appeal records for the patient
+                $blood_appeals = BloodAppeal::getAllForPatient($patient_id);
+            ?>
         <section>
           <div class="info">
             <p>Name: <?php echo $userName;?></p>
             <p>Location: Bamenda</p>
             <p>Blood Group: AB+</p>
           </div>
-          <div>
-            <div class="flex-row notification">
-              <div><h5>Blood Group B+ needed...</h5></div>
-              <div class="data-time">
-                <p>7:35am</p>
-                <p>02/06/2023</p>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <div class="flex-row notification">
-              <div><h5>Blood Group B+ needed...</h5></div>
-              <div class="data-time">
-                <p>7:35am</p>
-                <p>02/06/2023</p>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <div class="flex-row notification">
-              <div><h5>Blood Group B+ needed...</h5></div>
-              <div class="data-time">
-                <p>7:35am</p>
-                <p>02/06/2023</p>
-              </div>
-            </div>
-          </div>
+          <?php
+            if(empty($blood_appeals)){
+                echo'<div>
+                <div class="flex-row notification">
+                  <div><h5>No Blood Appeal Created</h5></div>
+                  <div class="data-time">
+                    <p>None</p>
+                  </div>
+                </div>
+              </div>';
+            }
+            else{
+                foreach ($blood_appeals as $blood_appeal) {
+                    echo '
+                        <div>
+                            <div class="flex-row notification">
+                              <div><h5>'.$blood_appeal['number_of_bags'].' bag(s) of Blood Group '.$blood_appeal["blood_group"].' requested... at '.$blood_appeal['health_facility'].'</h5></div>
+                              <div class="data-time">
+                                <p>'.date("h:i A",strtotime($blood_appeal["creation_date"])).'</p>
+                                <p>'.date("Y-m-d",strtotime($blood_appeal["creation_date"])).'</p>
+                                <p>Status: '.$blood_appeal["status"].'</p>
+                              </div>
+                            </div>
+                          </div>
+                    ';
+                }    
+            }
+          ?>
+          
           <div class="results-btn"><button class="btn">New Appeal</button></div>
         </section>
       </main>

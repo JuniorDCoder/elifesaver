@@ -39,9 +39,7 @@ $conn->close();
 echo '<input type="text" name="phone" placeholder="Start typing to search...">';
 echo '<input type="submit" value="Submit">';
 echo '</form>'; */
-?> 
-<?php
-$phone="";
+
 // Get the value of the phone input field
 $phone = $_POST["phone"];
 

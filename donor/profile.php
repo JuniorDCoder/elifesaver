@@ -43,7 +43,7 @@
                 <a href="./bloodAppeal.php"><i class="fa-solid fa-location-dot"></i>Blood Appeal</a>
               </li>
               <li class="list-item">
-                <a href="#"><i class="fa-solid fa-bell"></i> Notification</a>
+                <a href="./notification.php"><i class="fa-solid fa-bell"></i> Notification</a>
               </li>
               <li class="list-item">
                 <a href="./vaccines.php"><i class="fa-solid fa-syringe"></i></i> Vaccines</a>
@@ -75,36 +75,45 @@
               
               <section class="form-container">
                   <div>
-                    <form action="">
+                      <?php
+                        include '../classes/db_connect.class.php';
+                        include '../classes/donor.class.php';
+                        $donor = Donor::getDonorById($_SESSION['id']);
+                        
+                        $_SESSION['name'] = $donor->donor_name;
+                      
+                      ?>
+                    <form id="donor-form" action="./includes/update_donor.inc.php" method="POST">
+                        <input type="number" name="id" value="<?php echo $_SESSION['id']; ?>" hidden />
                       <div>
                           <label for="">Name</label>
-                        <input type="text" placeholder="Nsom Emmanuel" />
+                        <input type="text" name="name" value="<?php echo $donor->donor_name; ?>" />
                       </div>
                       <div>
                           <label for="">Email</label>
           
-                        <input type="email" placeholder="nsomemmunuel@gmail.com" />
+                        <input type="email" name="email" value="<?php echo $donor->email; ?>"  readonly="readonly"/>
                       </div>
                       <div>
                           <label for="">Phone Number</label>
           
-                        <input type="number" placeholder="+237 672 76 78 93" />
+                        <input type="text" name="phone" value="<?php echo $donor->phone; ?>" />
                       </div>
                       <div>
                           <label for=""> City</label>
-                          <input type="text" placeholder="Bamenda" />
+                          <input type="text" name="city" value="<?php echo $donor->city; ?>" />
                       </div>
                       <div>
                           <label for="">Address</label>
-                          <input type="text" placeholder="Up-Station" />
+                          <input type="text" name="address" value="<?php echo $donor->address; ?>" />
                       </div>
                       
                       <div>
                           <label for="">Password</label>
-                        <input type="password" placeholder="num@2023#" />
+                        <input type="password" name="password" value="" />
                       </div>
                       <div>
-                        <button class="btn">Update</button>
+                        <button class="btn" type="submit">Update</button>
                       </div>
                     </form>
                   </div>
@@ -113,6 +122,7 @@
         </main>
     </div>
 
-    <script src="./script.js"></script>
+    <script src="./js/script.js"></script>
+    <script src="./js/update_profile.js"></script>
   </body>
 </html>

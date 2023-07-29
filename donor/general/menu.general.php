@@ -42,7 +42,7 @@
                   <a href="./bloodAppeal.php"><i class="fa-solid fa-location-dot"></i>Blood Appeal</a>
                 </li>
                 <li class="list-item">
-                  <a href="#"><i class="fa-solid fa-bell"></i> Notification</a>
+                  <a href="./notification.php"><i class="fa-solid fa-bell"></i> Notification</a>
                 </li>
                 <li class="list-item">
                   <a href="./vaccines.php"><i class="fa-solid fa-syringe"></i></i> Vaccines</a>
