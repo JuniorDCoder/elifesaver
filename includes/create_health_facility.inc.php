@@ -1,6 +1,6 @@
 <?php
 
-    $allowed_origins = array('https://elifesaver.online','http://localhost:8080', 'https://b112-102-244-155-36.ngrok-free.app');
+    $allowed_origins = array('https://elifesaver.online','http://localhost:8080', 'https://b4e1-102-244-155-206.ngrok.io');
 
     // Get the origin header from the request
     $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
@@ -48,4 +48,4 @@
     // Set the content type header and output the JSON response
     header('Content-Type: application/json');
     echo $json_response;
-    }
+    

@@ -8,7 +8,7 @@ loginForm.addEventListener('submit', event => {
     const password = formData.get('password');
 
     // Send a POST request to the login API endpoint with the user's credentials
-    fetch('https://elifesaver.online/includes/login.inc.php', {
+    fetch('http://localhost:80/elifesaver/includes/login.inc.php', {
         method: 'POST',
         body: formData
     })
@@ -21,6 +21,7 @@ loginForm.addEventListener('submit', event => {
             const id = data.user.id;
             const userName = data.user[userType + '_name'];
             const userEmail = data.user['email'];
+            const userPhone = data.user['phone'];
             
             if (userType == "admin") {
                 //window.location.href = '../administrator/index.php'; 
@@ -33,6 +34,7 @@ loginForm.addEventListener('submit', event => {
             document.cookie = `type=${userType}; path=/`;
             document.cookie = `name=${userName}; path=/`;
             document.cookie = `email=${userEmail}; path=/`;
+            document.cookie = `phone=${userPhone}; path=/`;
             
             // Redirect the user to the donor dashboard
             if (userType == 'donor') {

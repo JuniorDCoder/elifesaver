@@ -52,9 +52,12 @@
                 <option value="">Select Blood Group</option>
                 <option value="A+">A+</option>
                 <option value="A-">A-</option>
+                <option value="AB">B+</option>
+                <option value="O-">B-</option>
+                <option value="O+">AB+</option>
+                <option value="AB">AB-</option> 
                 <option value="O-">O-</option>
                 <option value="O+">O+</option>
-                <option value="AB">AB</option>
               </select>
             </div>
             <div class="flex-row">

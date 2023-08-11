@@ -14,6 +14,7 @@ if (!isset($_SESSION['type']) || !isset($_SESSION['name']) || !isset($_SESSION['
       $_SESSION['type'] = $_COOKIE['type'];
       $_SESSION['name'] = $_COOKIE['name'];
       $_SESSION['email'] = $_COOKIE['email'];
+      $_SESSION['phone'] = $_COOKIE['phone'];
   }
 }
 
@@ -53,6 +54,7 @@ include_once('general/menu.general.php');
         
             <?php
                 $patient_id = $_SESSION['id']; // get patient ID from session
+               
                 
                 // include the BloodAppeal class file
                 require_once ('../classes/blood_appeal.class.php');
@@ -63,43 +65,92 @@ include_once('general/menu.general.php');
         <section>
           <div class="info">
             <p>Name: <?php echo $userName;?></p>
-            <p>Location: Bamenda</p>
-            <p>Blood Group: AB+</p>
           </div>
           <?php
-            if(empty($blood_appeals)){
-                echo'<div>
-                <div class="flex-row notification">
-                  <div><h5>No Blood Appeal Created</h5></div>
-                  <div class="data-time">
-                    <p>None</p>
-                  </div>
+            if (empty($blood_appeals)) {
+      echo '<div>
+              <div class="flex-row notification">
+                <div><h5>No Blood Appeal Created</h5></div>
+                <div class="data-time">
+                  <p>None</p>
                 </div>
-              </div>';
-            }
-            else{
-                foreach ($blood_appeals as $blood_appeal) {
-                    echo '
-                        <div>
-                            <div class="flex-row notification">
-                              <div><h5>'.$blood_appeal['number_of_bags'].' bag(s) of Blood Group '.$blood_appeal["blood_group"].' requested... at '.$blood_appeal['health_facility'].'</h5></div>
-                              <div class="data-time">
-                                <p>'.date("h:i A",strtotime($blood_appeal["creation_date"])).'</p>
-                                <p>'.date("Y-m-d",strtotime($blood_appeal["creation_date"])).'</p>
-                                <p>Status: '.$blood_appeal["status"].'</p>
-                              </div>
-                            </div>
-                          </div>
-                    ';
-                }    
-            }
+              </div>
+            </div>';
+    } else {
+      // Define the maximum number of notifications to display
+      $maxNotifications = 4;
+      $notificationCount = 0;
+
+      foreach ($blood_appeals as $blood_appeal) {
+        if ($notificationCount >= $maxNotifications) {
+          break; // Break the loop if the maximum number of notifications is reached
+        }
+        
+        echo '
+          <div>
+            <div class="flex-row notification">
+              <div><h5>'.$blood_appeal['number_of_bags'].' bag(s) of Blood Group '.$blood_appeal["blood_group"].' requested... at '.$blood_appeal['health_facility'].'</h5></div>
+              <div class="data-time">
+                <p>'.date("h:i A", strtotime($blood_appeal["creation_date"])).'</p>
+                <p>'.date("Y-m-d", strtotime($blood_appeal["creation_date"])).'</p>
+                <p>Status: '.$blood_appeal["status"].'</p>
+              </div>
+            </div>
+          </div>
+        ';
+
+        $notificationCount++; // Increment the notification count
+      }
+
+      // Check if there are additional notifications beyond the displayed ones
+      $remainingNotifications = count($blood_appeals) - $notificationCount;
+      if ($remainingNotifications > 0) {
+        echo '
+          <div class="show-more-btn">
+            <button class="btn" id="showMoreBtn">Show '.$remainingNotifications.' More</button>
+          </div>
+          <div id="hiddenNotifications" style="display: none;">
+        ';
+
+        // Display the remaining notifications initially hidden
+        for ($i = $notificationCount; $i < count($blood_appeals); $i++) {
+          $blood_appeal = $blood_appeals[$i];
+          echo '
+            <div>
+              <div class="flex-row notification">
+                <div><h5>'.$blood_appeal['number_of_bags'].' bag(s) of Blood Group '.$blood_appeal["blood_group"].' requested... at '.$blood_appeal['health_facility'].'</h5></div>
+                <div class="data-time">
+                  <p>'.date("h:i A", strtotime($blood_appeal["creation_date"])).'</p>
+                  <p>'.date("Y-m-d", strtotime($blood_appeal["creation_date"])).'</p>
+                  <p>Status: '.$blood_appeal["status"].'</p>
+                </div>
+              </div>
+            </div>
+          ';
+        }
+
+        echo '</div><br>';
+      }
+    }
+    
           ?>
           
-          <div class="results-btn"><button class="btn">New Appeal</button></div>
+          
+          <div class="results-btn"><a href="bloodAppeal.php"> <button class="btn">New Appeal</button></a></div>
         </section>
       </main>
     </div>
 
     <!-- <script src="./script.js"></script> -->
+    <script>
+  // JavaScript code to handle the "Show More" functionality
+  const showMoreBtn = document.getElementById('showMoreBtn');
+  const hiddenNotifications = document.getElementById('hiddenNotifications');
+
+  showMoreBtn.addEventListener('click', function () {
+    hiddenNotifications.style.display = 'block';
+    showMoreBtn.style.display= 'none';
+  });
+</script>
   </body>
 </html>

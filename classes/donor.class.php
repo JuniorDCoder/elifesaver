@@ -12,17 +12,19 @@ class Donor{
     public $blood_group;
     public $last_donation_date;
     public $bts_number;
+    public $registration_token;
     private static $is_logged_in = false;
     private $conn;
-    public function __construct($donor_name, $gender, $email, $password, $phone, $address, $city, $blood_group, $bts_number) {
+    public function __construct($donor_name, $gender, $password, $email, $phone, $address, $city, $blood_group, $registration_token, $bts_number) {
         $this->donor_name = $donor_name;
         $this->gender = $gender;
-        $this->email = $email;
         $this->password = $password;
+        $this->email = $email;
         $this->phone = $phone;
         $this->address = $address;
         $this->city = $city;
         $this->blood_group = $blood_group;
+        $this->registration_token = $registration_token;
         $this->bts_number = $bts_number;
         $this->conn = Database::getInstance()->getConn();
     }
@@ -40,6 +42,7 @@ class Donor{
         $stmt->bind_param("s", $this->email);
         $stmt->execute();
         $result = $stmt->get_result();
+
         
         if ($result->num_rows > 0) {
             $stmt->close(); // Close the statement before returning
@@ -47,17 +50,18 @@ class Donor{
         }
     
         $hashed_password = password_hash($this->password, PASSWORD_DEFAULT);
-    
+        
+
         // Insert the new donor record
-        $stmt = $this->conn->prepare("INSERT INTO donors (donor_name, gender, email, password, phone, address, city, blood_group, bts_number) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssssssss", $this->donor_name, $this->gender, $this->email, $hashed_password, $this->phone, $this->address, $this->city, $this->blood_group, $this->bts_number);
+        $stmt = $this->conn->prepare("INSERT INTO donors (donor_name, gender, password, email,  phone, address, city, blood_group, registration_token, bts_number) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssssssss", $this->donor_name, $this->gender, $hashed_password, $this->email, $this->phone, $this->address, $this->city, $this->blood_group ,$this->registration_token, $this->bts_number);
     
         if ($stmt->execute()) {
             $this->id = $this->conn->insert_id;
             $stmt->close();
             self::$is_logged_in = true;
     
-            return new Donor($this->donor_name, $this->gender, $this->email, $this->password, $this->phone, $this->address,$this->city, $this->blood_group, $this->bts_number);
+            return new Donor($this->donor_name, $this->gender, $this->password, $this->email, $this->phone, $this->address,$this->city, $this->blood_group, $this->registration_token, $this->bts_number);
         } else {
             return false;
         }
@@ -76,7 +80,7 @@ class Donor{
             // Verify the password
             if (password_verify($password, $row['password'])) {
                 // Password is correct, create and return a new donor object
-                $donor = new Donor($row['donor_name'], $row['gender'], $row['email'], $row['password'], $row['phone'], $row['address'], $row['city'], $row['blood_group'], $row['bts_number']);
+                $donor = new Donor($row['donor_name'], $row['gender'], $row['password'], $row['email'], $row['phone'], $row['address'], $row['city'], $row['blood_group'], $row['registration_token'], $row['bts_number']);
                 $donor->id = $row['id'];
                 return $donor;
             }
@@ -136,7 +140,7 @@ class Donor{
     
         $donors = array();
         while ($row = $result->fetch_assoc()) {
-            $donor = new Donor($row['donor_name'], $row['gender'], $row['email'], $row['password'], $row['phone'], $row['address'], $row['city'], $row['blood_group'], $row['bts_number']);
+            $donor = new Donor($row['donor_name'], $row['gender'], $row['password'], $row['email'], $row['phone'], $row['address'], $row['city'], $row['blood_group'], $row['registration_token'], $row['bts_number']);
             $donor->id = $row['id'];
             $donor->last_login = $row['last_login'];
             $donor->last_donation_date = $row['last_donation_date'];
@@ -173,7 +177,7 @@ class Donor{
                 
             }
             
-            return new Donor($this->donor_name, $this->gender, $this->email, $this->password, $this->phone, $this->address,$this->city, $this->blood_group, $this->bts_number);
+            return new Donor($this->donor_name, $this->gender, $this->password, $this->email, $this->phone, $this->address,$this->city, $this->blood_group, $this->registration_token, $this->bts_number);
             
         }
         return false;
@@ -187,7 +191,7 @@ class Donor{
 
         if ($result->num_rows == 1) {
             $row = $result->fetch_assoc();
-            $donor = new Donor($row['donor_name'], $row['gender'], $row['email'], $row['password'], $row['phone'], $row['address'], $row['city'], $row['blood_group'], $row['bts_number']);
+            $donor = new Donor($row['donor_name'], $row['gender'], $row['password'], $row['email'], $row['phone'], $row['address'], $row['city'], $row['blood_group'], $row['registration_token'], $row['bts_number']);
             $donor->id = $row['id'];
             $donor->last_login = $row['last_login'];
             $donor->last_donation_date = $row['last_donation_date'];
@@ -205,7 +209,7 @@ class Donor{
         
         if ($result->num_rows == 1) {
             $row = $result->fetch_assoc();
-            $donor = new Donor($row['donor_name'], $row['gender'], $row['email'], $row['password'], $row['phone'], $row['address'], $row['city'], $row['blood_group'], $row['bts_number']);
+            $donor = new Donor($row['donor_name'], $row['gender'], $row['password'] , $row['email'], $row['phone'], $row['address'], $row['city'], $row['blood_group'], $row['registration_token'], $row['bts_number']);
             $donor->id = $row['id'];
             $donor->last_login = $row['last_login'];
             $donor->last_donation_date = $row['last_donation_date'];

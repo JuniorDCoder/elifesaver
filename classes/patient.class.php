@@ -3,7 +3,6 @@ include('db_connect.class.php');
 class Patient{
     public $id;
     public $patient_name;
-    public $gender;
     public $email;
     public $password;
     public $phone;
@@ -12,9 +11,8 @@ class Patient{
     public $last_login;
     private static $is_logged_in = false;
     private $conn;
-    public function __construct($patient_name, $gender, $password, $email, $phone) {
+    public function __construct($patient_name, $password, $email, $phone) {
         $this->patient_name = $patient_name;
-        $this->gender = $gender;
         $this->password = $password;
         $this->email = $email;
         $this->phone = $phone;
@@ -45,13 +43,13 @@ class Patient{
         }   
         $hashed_password = password_hash($this->password, PASSWORD_DEFAULT);
         // Insert the new patient record
-        $stmt = $this->conn->prepare("INSERT INTO patients (patient_name, gender, password, email, phone) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssss", $this->patient_name, $this->gender, $hashed_password, $this->email, $this->phone);
+        $stmt = $this->conn->prepare("INSERT INTO patients (patient_name, password, email, phone) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("ssss", $this->patient_name, $hashed_password, $this->email, $this->phone);
         if ($stmt->execute()) {
             $this->id = $this->conn->insert_id;
             $stmt->close();
             self::$is_logged_in = true;
-            return new Patient($this->patient_name, $this->gender, $this->password, $this->email, $this->phone);
+            return new Patient($this->patient_name, $this->password, $this->email, $this->phone);
         }
         else{
             return false;
@@ -71,7 +69,7 @@ class Patient{
             // Verify the password
             if (password_verify($password, $row['password'])) {
                 // Password is correct, create and return a new patient object
-                $patient = new Patient($row['patient_name'], $row['gender'], $row['email'], $row['password'], $row['phone']);
+                $patient = new Patient($row['patient_name'], $row['password'],  $row['email'],  $row['phone']);
                 $patient->id = $row['id'];
                 
                 return $patient;
@@ -82,6 +80,28 @@ class Patient{
         }
         // No patient found with the given email or password is incorrect, return false
         return false;
+    }
+    public static function getPatientById($id) {
+        $conn = Database::getInstance()->getConn();
+        $stmt = $conn->prepare("SELECT * FROM patients WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        // Check if a patient was found with the given id
+        if ($result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+            // Create and return a new patient object
+            $patient = new Patient($row['patient_name'], $row['password'], $row['email'], $row['phone']);
+            $patient->id = $row['id'];
+            $patient->address = $row['address'];
+            $patient->city = $row['city'];
+            $patient->last_login = $row['last_login'];
+
+            return $patient;
+        } else {
+            return null;
+        }
     }
     private function updatePatientPassword($new_password) {
         $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);

@@ -11,7 +11,7 @@ include_once('general/menu.general.php');
     
     $donor = Donor::getDonorById($_SESSION['id']);
     
-    $blood_appeals = BloodAppeal::getAllForBloodGroup($donor->blood_group);
+    $blood_appeals = BloodAppeal::getAllForBloodGroup($donor->blood_group, $donor->city, $donor->address);
 ?>
         <section>
             <?php

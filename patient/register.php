@@ -32,52 +32,14 @@
             <div>
               <input type="text" name="phone" placeholder="Phone Number" />
             </div>
-            
-            <!-- <div class="flex-row">
-              <div class="flex-row">
-                <div>Gender:</div>
-                <div class="flex-row">
-                  <input type="radio" />
-                  <label for="huey">Female</label>
-                </div>
-                <div class="flex-row">
-                  <input type="radio" />
-                  <label for="dewey">Male</label>
-                </div>
-              </div>
-              <input type="date" />
-            </div>
-            <div class="flex-row">
-              <select name="Select " id="">
-                <option value="">Select Blood Group</option>
-              </select>
-              <select name="Select " id="">
-                <option value="">Select Blood Group</option>
-              </select>
-            </div>
-            <div class="flex-row">
-              <input type="text" placeholder="City" />
-              <input type="text" placeholder="Address" />
-            </div> -->
+           
             <div>
               <input type="password" name="password" placeholder="Password" />
             </div>
             <div>
               <input type="password" name="confirm_password" placeholder="Confirm Password" />
             </div>
-            <div class="flex-row">
-              <div class="flex-row">
-                <div>Gender:</div>
-                <div class="flex-row">
-                  <input type="radio" name="gender" value="female" />
-                  <label for="huey">Female</label>
-                </div>
-                <div class="flex-row">
-                  <input type="radio" name="gender" value="male" />
-                  <label for="dewey">Male</label>
-                </div><br>
-              </div>
-            <div>
+            
               <button class="btn" type="submit">Register</button>
             </div>
           </form>

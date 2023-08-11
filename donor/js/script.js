@@ -1,27 +1,43 @@
-const sidebar = document.querySelector(".sidebar");
-const sidebarClose = document.querySelector("#sidebar-close");
-const menu = document.querySelector(".menu-content");
-const menuItems = document.querySelectorAll(".submenu-item");
-const subMenuTitles = document.querySelectorAll(".submenu .menu-title");
+const sidebar = document.querySelector('.sidebar')
+const sidebarClose = document.querySelector('#sidebar-close')
+const sidebarOpen = document.querySelector('#sidebar-open')
+const main = document.querySelector('.main')
+const modelClose = document.querySelector('.model-close')
+const modelClose2 = document.querySelector('.model-close2')
+const model = document.querySelector('.model')
+const model2 = document.querySelector('.model2')
+const modelOpen = document.querySelector('.model-open')
+const modelOpen2 = document.querySelector('.model-open2')
+console.log(sidebarOpen);
+sidebarClose.addEventListener('click', () => {
+  sidebar.classList.add('full-sidebar')
+  
+  main.classList.add('full')
+})
+sidebarOpen.addEventListener('click', () => {
+  console.log(main)
+  if (sidebar.classList.contains('full-sidebar')) {
+    console.log('full-sidebar');
+    sidebar.classList.remove('full-sidebar')
+    sidebarClose.classList.remove('none-icon')
+    sidebarClose.classList.add('')
+  }else{
+    console.log("not full-sidebar");
+    sidebar.classList.add('full-sidebar')
+    sidebarClose.classList.add('none-icon')
+  }
 
-sidebarClose.addEventListener("click", () => sidebar.classList.toggle("close"));
+})
 
-menuItems.forEach((item, index) => {
-  item.addEventListener("click", () => {
-    menu.classList.add("submenu-active");
-    item.classList.add("show-submenu");
-    menuItems.forEach((item2, index2) => {
-      if (index !== index2) {
-        item2.classList.remove("show-submenu");
-      }
-    });
-  });
-});
-
-subMenuTitles.forEach((title) => {
-  title.addEventListener("click", () => {
-    menu.classList.remove("submenu-active");
-  });
-});
-
-console.log(menuItems, subMenuTitles);
+  modelOpen.addEventListener('click',()=>{
+    model.classList.toggle('show-model')
+  })
+modelOpen2.addEventListener('click',()=>{
+    model2.classList.toggle('show-model2')
+  })
+modelClose.addEventListener('click', ()=>{
+  model.classList.toggle('show-model')
+})
+modelClose2.addEventListener('click', ()=>{
+  model2.classList.toggle('show-model2')
+})

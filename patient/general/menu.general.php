@@ -13,6 +13,8 @@
       referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="./css/style.css" />
     <link rel="stylesheet" href="./css/main.css" />
+    <script src="./js/script.js" defer></script>
+
   </head>
   <body>
     <div>
@@ -54,25 +56,20 @@
             <i class="fa-sharp fa-solid fa-right-from-bracket"></i>&nbspLogout</a>
         </div>
       </div>
-      <main class="main">
+      <main class="full main">
         <header>
           <nav class="flex-row">
             <div id="sidebar-open"><i class="fa-solid fa-bars"></i></div>
             <div>
-              <p>Dashboard</p>
+              <p><?php echo ucfirst(basename($_SERVER['PHP_SELF'], '.php')); ?></p>
             </div>
             <div>
               <ul>
                 <li class="name">
-                  <i class="fa-sharp fa-solid fa-droplet"></i>
+                <a href="./bloodAppeal.php"><i class="fa-sharp fa-solid fa-droplet"></i></a>
                 </li>
-                <li class="name"><i class="fa-solid fa-bell"></i></li>
-                <li>
-                  <img src="./images/Ellipse 2.png" alt="" /><span>
-                    1500 <br />
-                    Credits</span
-                  >
-                </li>
+                <li class="name"><a href="./notification.php"><i class="fa-solid fa-bell"></i></a></li>
+                  
               </ul>
             </div>
           </nav>

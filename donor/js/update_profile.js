@@ -16,7 +16,7 @@ form.addEventListener('submit', event => {
   }
 
   // Send an AJAX request to the API
-  fetch('https://elifesaver.online/donor/includes/update_donor.inc.php', {
+  fetch('http://localhost:80/elifesaver/donor/includes/update_donor.inc.php', {
     method: 'POST',
     body: formData
   })

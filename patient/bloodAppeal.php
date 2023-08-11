@@ -47,9 +47,10 @@
                   <?php
 // Initialize variables
 $host = "localhost";
-$username = "u944161398_e_life_saver";
-$password = "nu7DRg7MTMfyfNN";
+$username = "root";
+$password = "";
 $database = "u944161398_e_life_saver";
+//nu7DRg7MTMfyfNN
 
 
 // Connect to the database

@@ -17,10 +17,11 @@ registerForm.addEventListener('submit', event => {
     
 
     // Send a POST request to the register API endpoint with the user's registration data
-    fetch('https://elifesaver.online/includes/registerDonor.inc.php', {
+    fetch('http://localhost:80/elifesaver/includes/registerDonor.inc.php', {
         method: 'POST',
         body: formData
     })
+    
     .then(response => response.json())
     .then(data => {
         if (data.success) {

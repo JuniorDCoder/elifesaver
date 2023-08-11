@@ -18,7 +18,7 @@ bloodAppealForm.addEventListener('submit', event =>{
     // Define the data to be sent in the POST request
     
       
-      fetch("https://elifesaver.online/includes/create_blood_appeal.inc.php",{
+      fetch("http://localhost:80/elifesaver/includes/create_blood_appeal.inc.php",{
          method: 'POST',
          body: formData
       })

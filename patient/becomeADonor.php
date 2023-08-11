@@ -8,21 +8,19 @@
           </section>
           <section class="form-container become-a-donor">
             <div>
-              <form action="" method="POST">
+              <form action="./includes/become_a_donor.inc.php" method="POST">
                 <div class="flex-row">
                   <div>Gender:</div>
                   <div class="flex-row">
-                    <input name="gender" type="radio" />
+                    <input name="gender" type="radio" value="female" />
                     <label for="huey">Female</label>
                   </div>
                   <div class="flex-row">
-                    <input name="gender" type="radio" />
+                    <input name="gender" type="radio" value="male"/>
                     <label for="dewey">Male</label>
                   </div>
                 </div>
-                <div>
-                  <input type="date" placeholder="Date of Birth" />
-                </div>
+               
                 <div class="flex-row">
                   <select name="blood_group" type="text" id="" required>
                     <option value="">Select Blood Group</option>
@@ -39,11 +37,15 @@
                 </div>
 
                 <div>
-                  <input type="text" name="city" placeholder="City" />
+                  <input type="text" name="city" placeholder="City" required/>
                 </div>
                 <div>
-                  <input type="text" name="address" placeholder="Address" />
+                  <input type="text" name="address" placeholder="Address" required/>
                 </div>
+                <div>
+                  <input type="password" name="password" placeholder="Password"/>
+                </div>
+                
                 <div>
                   <button class="btn" type="submit">Finish</button>
                 </div>
@@ -55,5 +57,9 @@
     </div>
 
     <!-- <script src="./script.js"></script> -->
+    
+  <?php
+
+  ?>
   </body>
 </html>

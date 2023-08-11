@@ -1,5 +1,5 @@
 <?php
-$allowed_origins = array('https://elifesaver.online','http://localhost:8080', 'https://b112-102-244-155-36.ngrok-free.app');
+$allowed_origins = array('https://elifesaver.online','http://localhost:8080', 'https://b4e1-102-244-155-206.ngrok.io');
 
 // Get the origin header from the request
 $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
@@ -27,7 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         
         include_once('../config/bts_number.config.php');
-        $donor = new Donor($_POST['name'], $_POST['gender'], $_POST['email'], $_POST['password'], $_POST['phone'], $_POST['address'], $_POST['city'], $_POST['blood_group'], $bts_number);
+        $registration_token = bin2hex(random_bytes(32));
+        $donor = new Donor($_POST['name'], $_POST['gender'], $_POST['password'], $_POST['email'], $_POST['phone'], $_POST['address'], $_POST['city'], $_POST['blood_group'], $registration_token, $bts_number);
         $register_result = $donor->registerDonor();
         
         

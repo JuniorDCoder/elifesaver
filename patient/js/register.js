@@ -5,7 +5,6 @@ registerForm.addEventListener('submit', event => {
     // Get the user's entered registration data
     const formData = new FormData(registerForm);
     const name = formData.get('name');
-    const gender = formData.get('gender');
     const password = formData.get('password');
     const confirm_password = formData.get('confirm_password');
     const email = formData.get('email');    
@@ -14,7 +13,7 @@ registerForm.addEventListener('submit', event => {
     
 
     // Send a POST request to the register API endpoint with the user's registration data
-    fetch('https://elifesaver.online/includes/registerPatient.inc.php', {
+    fetch(' http://localhost:80/elifesaver/includes/registerPatient.inc.php', {
         method: 'POST',
         body: formData
     })

@@ -1,154 +1,172 @@
 <?php
+// Start the session
 session_start();
-  include_once('./general/menu.general.php');
- 
- ?> <?php
-// Initialize variables
-$host = "localhost";
-$username = "u944161398_e_life_saver";
-$password = "nu7DRg7MTMfyfNN";
-$database = "u944161398_e_life_saver";
 
-// Connect to the database
-$conn = new mysqli($host, $username, $password, $database);
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
+
+// Check if the required session variables are set
+if (!isset($_SESSION['type']) || !isset($_SESSION['name']) || !isset($_SESSION['email'])) {
+    // If the session variables are not set, check if the localStorage variables are set
+    if (!isset($_COOKIE['type']) || !isset($_COOKIE['name']) || !isset($_COOKIE['email'])) {
+        // If the localStorage variables are not set, redirect the user to the login page
+        header('Location: ../index.php');
+        exit();
+    } else {
+        // If the localStorage variables are set, set the session variables from the localStorage variables
+        $_SESSION['id'] = $_COOKIE['id'];
+        $_SESSION['type'] = $_COOKIE['type'];
+        $_SESSION['name'] = $_COOKIE['name'];
+        $_SESSION['email'] = $_COOKIE['email'];
+    }
 }
 
-// Get the list of vaccines
-$query = "SELECT vaccine_name FROM vaccine";
-$result = $conn->query($query);
+// Get the session variables
+$userId = $_SESSION['id'];
+$userType = $_SESSION['type'];
+$userName = $_SESSION['name'];
+$userEmail = $_SESSION['email'];
 
-// Create an array of vaccines
-$vaccines = array();
-if ($result->num_rows > 0) {
-  while ($row = $result->fetch_assoc()) {
-    $vaccines[] = $row["vaccine_name"];
-  }
-}
+?>
+    
 
-// Get the list of vaccine statuses
-$query = "SELECT status, vaccine_id FROM vaccine_status";
-$result = $conn->query($query);
-
-// Create an array of vaccine statuses
-$vaccine_statuses = array();
-if ($result->num_rows > 0) {
-  while ($row = $result->fetch_assoc()) {
-    $vaccine_statuses[$row["vaccine_id"]] = $row["status"];
-  }
-}
-
-// Get the first dose date
-$query = "SELECT date FROM vaccine_status WHERE vaccine_id = 3";
-$result = $conn->query($query);
-$first_dose_date = "";
-if ($result->num_rows > 0) {
-  $row = $result->fetch_assoc();
-  $first_dose_date = $row["date"];
-}
-
-// Get the second dose date
-$query = "SELECT date FROM vaccine_status WHERE vaccine_id = 4";
-$result = $conn->query($query);
-$second_dose_date = "";
-if ($result->num_rows > 0) {
-  $row = $result->fetch_assoc();
-  $second_dose_date = $row["date"];
-}
-
-// Get the third dose date
-$query = "SELECT date FROM vaccine_status WHERE vaccine_id = 5";
-$result = $conn->query($query);
-$third_dose_date = "";
-if ($result->num_rows > 0) {
-  $row = $result->fetch_assoc();
-  $third_dose_date = $row["date"];
+<?php
+  // Create a new cURL resource
+  $curl = curl_init();
   
-}
+  // Set the POST URL
+  $url = 'http://localhost:80/elifesaver/donor/includes/fetch_vaccines.inc.php';
+  
+  // Set the POST data
+  $data = array(
+      'id' => $userId 
+  );
+  
+  // Convert the data to query string format
+  $dataString = http_build_query($data);
+  
+  // Set the cURL options
+  curl_setopt($curl, CURLOPT_URL, $url);
+  curl_setopt($curl, CURLOPT_POST, true);
+  curl_setopt($curl, CURLOPT_POSTFIELDS, $dataString);
+  curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+  
+  // Execute the cURL request
+  $response = curl_exec($curl);
+  
+  // Check for errors
+  if ($response === false) {
+      $error = curl_error($curl);
+      // Handle the error
+  } else {
+      // Process the response
+      $responseData = json_decode($response, true);
 
-// Get the status of yellow fever
-$query ="SELECT status From vaccine_status WHERE vaccine_id = 1";
-$result = $conn->query($query);
-$yellow_fever_status="";
-if ($result->num_rows > 0) {
-  $row = $result->fetch_assoc();
-  $yellow_fever_status = $row["status"];
-}
-// Get the status of covid19
-$query ="SELECT status From vaccine_status WHERE vaccine_id = 2";
-$result = $conn->query($query);
-$covid_19_status="";
-if ($result->num_rows > 0) {
-  $row = $result->fetch_assoc();
-  $covid_19_status = $row["status"];
-}
-// Close the database connection
-$conn->close();
+      // Assign the vaccine responses to a variable
+      $vaccine_responses = $responseData['vaccine_response'];
+      // Handle the response data
 
-    ?>
-              <section>
-                <div class="flex-row">
-                    <h3 class="name">Blood Donors Test Results</h3>
-                    <h4>Date of Donation 23/07/2023</h4>
-                </div>
-                <table class="table table-borderless">
-                    <thead>
-                      <tr>
-                        <th scope="col">1 <sup>st</sup> Dose</th>
-                        <th scope="col">2 <sup>nd</sup> Dose</th>
-                        <th scope="col">3 <sup>rd</sup> Dose</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                       <td><?php echo $first_dose_date; ?></td>
-                       <td><?php echo $second_dose_date; ?></td>
-                       <td><?php echo $third_dose_date; ?></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <div class="download-button">
-                    <button class="download-btn">Download</button>
-                  </div>
-              </section>
-            <section>
-                <table class="table table-striped">
-                    <thead>
-                      <tr>
-                        <th scope="col">Vaccine Name</th>
-                        <th scope="col">Status</th>
-                      </tr>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>Yellow Fever</td>
-                         <td><?php echo $yellow_fever_status; ?></td>
-                      </tr>
-                      <tr>
-                        <td>Covid-19</td>
-                        <td><?php echo $covid_19_status; ?></td>
-                      </tr>
-                      <!--<tr>
-                        <td>HIV</td>
-                        <td>Not Taken</td>
-                      </tr>
-                      <tr>
-                        <td>STD's</td>
-                        <td>Not Taken</td>
-                      </tr>-->
-                    </tbody>
-                </table>
-            </section>
+      $status_responses = $responseData['date'];
+  }
+  
+  // Close the cURL resource
+  curl_close($curl);
+  
+  // Use the $responseData to display the data in the frontend
+
+include_once('./general/menu.general.php');
+//include('../classes/db_connect.class.php');
+include('../classes/donor.class.php');
+  ?>
+  
+
+<section>
+    <div class="flex-row">
+        <h3 class="name">Blood Donors Test Results</h3>
+        <?php
+        // Display the date of the last donation
+        if (isset($status_responses) && !empty($status_responses)) {
+            $lastDonationDate = end($status_responses)['dose_date'];
+            echo "<h4>Date of Donation: $lastDonationDate</h4>";
+        } else {
+            echo "<h4>No Donation</h4>";
+        }
+        ?>
+    </div>
+    <table class="table table-borderless">
+        <thead>
+            <tr>
+                <th scope="col">1<sup>st</sup> Dose</th>
+                <th scope="col">2<sup>nd</sup> Dose</th>
+                <th scope="col">3<sup>rd</sup> Dose</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <?php
+                // Display the dates of the last three doses
+                if (isset($status_responses) && !empty($status_responses)) {
+                    $lastThreeDoses = array_slice($status_responses, -3);
+                    foreach ($lastThreeDoses as $dose) {
+                        echo "<td>$dose[dose_date]</td>";
+                    }
+                } else {
+                    echo "<td>No Dose</td>";
+                    echo "<td>No Dose</td>";
+                    echo "<td>No Dose</td>";
+                }
+                ?>
+            </tr>
+        </tbody>
+    </table>
+    <div class="download-button">
+        <button class="download-btn" id="downloadButton">Download</button>
+    </div>
+</section>
+
+<section>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Vaccine Name</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            // Display the vaccine names and their statuses
+            if (isset($vaccine_responses) && !empty($vaccine_responses)) {
+                foreach ($vaccine_responses as $vaccine) {
+                    echo "<tr>";
+                    echo "<td>$vaccine[vaccine_name]</td>";
+                    echo "<td>$vaccine[status]</td>";
+                    echo "</tr>";
+                }
+            } else {
+                echo "<tr>";
+                echo "<td colspan='2'>No Vaccines Taken</td>";
+                echo "</tr>";
+            }
+            ?>
+        </tbody>
+    </table>
+</section>
         </main>
     </div>
+    <script>
+        function downloadPDF() {
+            window.location.href = 'generate_pdf.php';
+        }
+        // Get the button element
+        var downloadButton = document.getElementById('downloadButton');
 
-    // add bootstrap 5 js file
+        // Add event listener to the button
+        downloadButton.addEventListener('click', downloadPDF);
+    </script>
+
+    <!-- add bootstrap 5 js file -->
  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
 
-//add bundel js
+<!--//add bundel js -->
  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src=".js/script.js"></script>
   </body>

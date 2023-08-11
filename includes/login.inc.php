@@ -8,7 +8,7 @@ $conn = Database::getInstance()->getConn();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Set the allowed origins for CORS
-    $allowed_origins = array('https://elifesaver.online','http://localhost:8080', 'https://ddc5-41-202-207-145.ngrok-free.app');
+    $allowed_origins = array('https://elifesaver.online','http://localhost:80', ' https://4ddf-102-244-155-126.ngrok.io');
 
     // Get the origin header from the request
     $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
@@ -26,12 +26,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $type = null;
 
     // Check if the login is for a patient or a donor
-    if (Patient::isPatient($_POST['email'])) {
-        $user = Patient::loginPatient($_POST['email'], $_POST['password']);
-        $type = "patient";
-    } else if (Donor::isDonor($_POST['email'])) {
+    if (Donor::isDonor($_POST['email'])) {
         $user = Donor::loginDonor($_POST['email'], $_POST['password']);
         $type = "donor";
+    }
+    else if(Patient::isPatient($_POST['email'])) {
+        $user = Patient::loginPatient($_POST['email'], $_POST['password']);
+        $type = "patient";
     }
     else if (Admin::isAdmin($_POST['email'])) {
         $user = Admin::loginAdmin($_POST['email'], $_POST['password']);

@@ -1,5 +1,5 @@
 <?php
-$allowed_origins = array('https://elifesaver.online','http://localhost:8080', 'https://5208-102-244-155-27.ngrok-free.app');
+$allowed_origins = array('https://elifesaver.online','http://localhost:80', 'https://4ddf-102-244-155-126.ngrok.io');
 
 // Get the origin header from the request
 $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $response = array('success' => false, 'error' => 'Password and confirm password do not match');
     } else {
 
-        $patient = new Patient($_POST['name'], $_POST['gender'], $_POST['password'], $_POST['email'], $_POST['phone']);
+        $patient = new Patient($_POST['name'], $_POST['password'], $_POST['email'], $_POST['phone']);
         $register_result = $patient->registerPatient();
 
         // Update the last login time for the patient

@@ -31,7 +31,7 @@ class Database
 
 }
 
-$allowed_origins = array('https://elifesaver.online/','http://localhost:8080', 'https://2721-102-244-155-9.ngrok-free.app');
+$allowed_origins = array('https://elifesaver.online/','http://localhost:80', 'https://4ddf-102-244-155-126.ngrok.io');
 
 // Get the origin header from the request
 $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $city = $_POST['city'];
 
     // Create a new donor object and update the donor details
-    $donor = new Donor('', '', '', '', '', '', '', '', '');
+    $donor = new Donor('', '', '', '', '', '', '', '', '', '');
     $result = $donor->updateDonorDetails($id, $name, $password, $phone, $address, $city);
 
     // Check if the update was successful

@@ -63,10 +63,17 @@
                         <p>Profile</p>
                     </div>
                     <div>
+                      <?php
+                          global $credit;
+                      ?>
                         <ul>
                             <li class="name"><i class="fa-sharp fa-solid fa-droplet"></i></li>
                             <li class="name"><i class="fa-solid fa-bell"></i></li>
-                            <li><img src="./images/Ellipse 2.png" alt=""><span> 1500 <br> Credits</span></li>
+                            <li><img src="./images/Ellipse 2.png" alt=""><span><?php if (is_null($credit)) {
+                                echo 0;
+                              }else {
+                                echo $GLOBALS['credit'];
+                              } ?><br>Credits</span></li>
                         </ul>
                     </div>
                 </nav>

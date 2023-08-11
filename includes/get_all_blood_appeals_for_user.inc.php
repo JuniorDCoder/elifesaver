@@ -1,6 +1,6 @@
 <?php
 
-    $allowed_origins = array('https://elifesaver.online','http://localhost:8080', 'https://b112-102-244-155-36.ngrok-free.app');
+    $allowed_origins = array('https://elifesaver.online','http://localhost:8080', 'https://4ddf-102-244-155-126.ngrok.io');
 
     // Get the origin header from the request
     $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
@@ -24,7 +24,9 @@
        }
        else if($_POST['user_type'] == 'donor'){
            $blood_group = $_POST['blood_group'];
-           $blood_appeals = BloodAppeal::getAllForBloodGroup($blood_group);
+           $city = $_POST['city'];
+           $address = $_POST['address'];
+           $blood_appeals = BloodAppeal::getAllForBloodGroup($blood_group, $city, $address);
        }
        
        if(!empty($blood_appeals)){

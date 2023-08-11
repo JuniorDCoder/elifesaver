@@ -58,7 +58,7 @@ class BloodAppeal {
   public static function getAllForPatient($patient_id) {
     $conn = Database::getInstance()->getConn();
     // Retrieve all blood appeals for the given patient
-    $stmt = $conn->prepare("SELECT * FROM blood_appeals WHERE patient_id = ?");
+    $stmt = $conn->prepare("SELECT * FROM blood_appeals WHERE patient_id = ? ORDER BY creation_date DESC");
     $stmt->bind_param("i", $patient_id);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -66,15 +66,17 @@ class BloodAppeal {
     return $appeals;
   }
   // Get all blood appeals for a given blood group
-  public static function getAllForBloodGroup($blood_group) {
-    $conn = Database::getInstance()->getConn();
-    // Retrieve all blood appeals for the given blood group
-    $stmt = $conn->prepare("SELECT * FROM blood_appeals WHERE blood_group = ?");
-    $stmt->bind_param("s", $blood_group);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $appeals = $result->fetch_all(MYSQLI_ASSOC);
-    return $appeals;
+  public static function getAllForBloodGroup($blood_group, $city, $address) {
+      $conn = Database::getInstance()->getConn();
+      // Retrieve all blood appeals for the given blood group and matching city
+      $lower_city = strtolower($city);
+      $lower_address = strtolower($address);
+      $stmt = $conn->prepare("SELECT * FROM blood_appeals WHERE blood_group = ? OR LOWER(health_facility) = ? OR LOWER(health_facility) = ? ORDER BY creation_date DESC");
+      $stmt->bind_param("sss", $blood_group, $lower_city, $lower_address);
+      $stmt->execute();
+      $result = $stmt->get_result();
+      $appeals = $result->fetch_all(MYSQLI_ASSOC);
+      return $appeals;
   }
   public static function deleteBloodAppeal($id) {
     $conn = Database::getInstance()->getConn();

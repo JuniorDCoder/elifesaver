@@ -2313,4 +2313,22 @@ a:hover {
     
 }
 
+
+/* Contact form */
+
+.contact-form {
+  width: 100%
+}
+.contact-form input, .contact-form textarea{
+  width: 100%;
+  padding: 10px;
+  
+}
+.contact-form input::placeholder{
+  color: #242424;
+}
+.contact-form textarea::placeholder {
+  color: #242424;
+}
+
 /*# sourceMappingURL=maps/style.css.map */
